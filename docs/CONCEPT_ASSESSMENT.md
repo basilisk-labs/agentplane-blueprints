@@ -21,7 +21,8 @@ AgentPlane core while giving organizations a place to encode audit and evidence 
 3. Packs are correctly lightweight.
 
    A pack as a wrapper over blueprints is safer than a pack as another lifecycle authority. The
-   source of route behavior remains each blueprint definition.
+   source of route behavior remains each blueprint definition, and users can still install one
+   blueprint directly when a bundle is unnecessary.
 
 4. Offline reproducibility is possible.
 
@@ -100,7 +101,7 @@ base init
 
 advanced init
   optional catalog sync
-  install selected blueprints or packs
+  install selected individual blueprints or packs
   explicit activation preview
   project-local vendored files
 

@@ -54,6 +54,29 @@ The intended AgentPlane integration is:
 5. Keep base mode unchanged: if no advanced selection is made, the project uses the built-in seven
    blueprints.
 
+## Install Targets
+
+The install surface has two first-class target types:
+
+- `blueprint`: install one catalog blueprint, for example `performance-benchmark`.
+- `pack`: expand a catalog pack into several blueprint installs, for example `enterprise-baseline`.
+
+A pack is optional convenience, not the primary artifact model. Users must be able to install a
+single blueprint without installing a pack:
+
+```bash
+agentplane blueprints install performance-benchmark
+```
+
+Pack install uses the same underlying blueprint install path after expansion:
+
+```bash
+agentplane blueprints install enterprise-baseline
+```
+
+If a catalog ever contains the same id for a blueprint and a pack, AgentPlane must require an
+explicit kind selector such as `--kind blueprint` or `--kind pack`.
+
 ## Current Examples
 
 - `performance-benchmark`: benchmark route for baseline/comparison work.

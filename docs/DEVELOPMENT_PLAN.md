@@ -32,8 +32,11 @@ Implemented in this repository:
    - `agentplane blueprints catalog info <id>`.
 
 3. Add install commands.
-   - `agentplane blueprints install <blueprint-or-pack>`;
-   - support local path, URL, and catalog id;
+   - `agentplane blueprints install <id>` for both blueprint ids and pack ids;
+   - resolve `<id>` as either an individual blueprint or a pack;
+   - require `--kind blueprint|pack` when ids are ambiguous;
+   - support local path, URL, and catalog id for individual blueprints;
+   - support catalog id for packs, with optional local path support if the pack manifest is present;
    - vendor files into project;
    - never activate implicitly.
 
@@ -45,7 +48,7 @@ Implemented in this repository:
 
 5. Add advanced init integration.
    - base profile: no external blueprints;
-   - advanced profile: select blueprints or packs;
+   - advanced profile: select individual blueprints, packs, or both;
    - show activation preview before writing;
    - preserve offline project reproducibility.
 
@@ -69,6 +72,7 @@ Implemented in this repository:
 - `npm run check` validates source files and generated index freshness.
 - AgentPlane can install one blueprint by id into a fresh project.
 - AgentPlane can install one pack and expand it into blueprint installs.
+- Advanced init can offer individual blueprints and packs in the same selection flow.
 - Activation remains explicit and visible through `agentplane blueprint list --trusted`.
 - A project can run without network access after installation.
 - Base initialization path still uses only built-in blueprints.
@@ -76,6 +80,7 @@ Implemented in this repository:
 ## Open Decisions
 
 - Whether catalog commands should live under `agentplane blueprint` or `agentplane blueprints`.
+- Whether pack ids and blueprint ids share one namespace or require kind-qualified commands.
 - Whether pack install should allow optional blueprints.
 - Whether org policy can enable automatic selection, or only explicit blueprint requests.
 - Whether blueprints and recipes should share one signed catalog protocol implementation while

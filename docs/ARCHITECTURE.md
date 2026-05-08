@@ -13,7 +13,8 @@ This repository provides those organization-specific routes without adding them 
 - Built-in blueprint: shipped in AgentPlane core.
 - Catalog blueprint: installable unit containing one project-local blueprint definition and optional
   supporting materials.
-- Pack: lightweight wrapper that references multiple blueprints for simultaneous install.
+- Pack: lightweight wrapper that references multiple blueprints for simultaneous install; it is not
+  required when the user only needs one blueprint.
 - Activation: explicit project-level trust decision that allows selected blueprint ids.
 - Selection: resolver decision that chooses an activated blueprint for a task.
 
@@ -50,11 +51,12 @@ Baseline mode:
 Advanced mode:
 
 1. AgentPlane refreshes the blueprint catalog index into a user cache.
-2. User selects blueprints or packs.
-3. AgentPlane vendors selected blueprints into the project.
-4. AgentPlane writes project-local blueprint files.
-5. AgentPlane writes `.agentplane/blueprints/config.json` with explicit allowlist activation.
-6. Resolver can use only trusted and compatible ids.
+2. User selects individual blueprints, packs, or both.
+3. AgentPlane expands packs into blueprint ids.
+4. AgentPlane vendors selected blueprints into the project.
+5. AgentPlane writes project-local blueprint files.
+6. AgentPlane writes `.agentplane/blueprints/config.json` with explicit allowlist activation.
+7. Resolver can use only trusted and compatible ids.
 
 ## Why Packs Are Lightweight
 

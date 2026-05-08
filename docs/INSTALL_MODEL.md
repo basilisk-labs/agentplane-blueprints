@@ -34,6 +34,38 @@ Intended prompt order:
 7. Vendor blueprint files into the project.
 8. Write explicit allowlist activation.
 
+## Install Targets
+
+The installer accepts both individual blueprints and packs as catalog targets.
+
+Single blueprint install:
+
+```bash
+agentplane blueprints install performance-benchmark
+```
+
+Result:
+
+- install one catalog blueprint manifest;
+- vendor one route blueprint definition into the project;
+- do not activate it until the trust config is explicitly updated.
+
+Pack install:
+
+```bash
+agentplane blueprints install enterprise-baseline
+```
+
+Result:
+
+- resolve the pack manifest;
+- expand it into its referenced blueprint ids;
+- install each referenced blueprint through the same install path used for a single blueprint;
+- do not activate any route implicitly.
+
+If a blueprint id and pack id collide, the command must fail closed and ask for an explicit kind,
+for example `--kind blueprint` or `--kind pack`.
+
 ## Project Install Shape
 
 ```text
