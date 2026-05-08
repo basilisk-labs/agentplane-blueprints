@@ -1,10 +1,11 @@
 ---
 id: "202605081643-VF8VNV"
 title: "Align catalog model with blueprint-first terminology"
-status: "DOING"
+result_summary: "Blueprint catalog terminology and data model corrected to blueprint-first."
+status: "DONE"
 priority: "high"
 owner: "CODER"
-revision: 5
+revision: 6
 origin:
   system: "manual"
 depends_on: []
@@ -23,11 +24,16 @@ verification:
   updated_at: "2026-05-08T16:47:13.862Z"
   updated_by: "CODER"
   note: "Command: npm run check. Result: pass. Evidence: catalog validation passed for 3 catalog blueprints, 1 pack, and 3 route definitions; dist/index.json is current. Command: ap blueprint validate for performance.benchmark, quality.regression, and runner.execution. Result: pass. Evidence: all route definition JSON files validate with AgentPlane. Command: node .agentplane/policy/check-routing.mjs && ap doctor && git diff --check. Result: pass. Evidence: policy routing OK, doctor OK with project blueprint compatibility info only, and whitespace diff check clean. Scope: blueprint-first catalog terminology, manifests, pack format, scripts, schemas, docs, and generated dist index."
-commit: null
+commit:
+  hash: "223488fc4758a667ca55e605a3a7938fff1a5f05"
+  message: "♻️ VF8VNV code: make blueprint catalog blueprint-first"
 comments:
   -
     author: "CODER"
     body: "Start: Correcting the catalog repository to make blueprints the atomic installable units and packs lightweight blueprint collections."
+  -
+    author: "CODER"
+    body: "Verified: Catalog model now treats blueprints as the atomic installable units and packs as lightweight blueprint collections; recipe terminology is limited to the implementation-mechanics analogy."
 events:
   -
     type: "status"
@@ -42,8 +48,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "Command: npm run check. Result: pass. Evidence: catalog validation passed for 3 catalog blueprints, 1 pack, and 3 route definitions; dist/index.json is current. Command: ap blueprint validate for performance.benchmark, quality.regression, and runner.execution. Result: pass. Evidence: all route definition JSON files validate with AgentPlane. Command: node .agentplane/policy/check-routing.mjs && ap doctor && git diff --check. Result: pass. Evidence: policy routing OK, doctor OK with project blueprint compatibility info only, and whitespace diff check clean. Scope: blueprint-first catalog terminology, manifests, pack format, scripts, schemas, docs, and generated dist index."
+  -
+    type: "status"
+    at: "2026-05-08T16:47:37.018Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: Catalog model now treats blueprints as the atomic installable units and packs as lightweight blueprint collections; recipe terminology is limited to the implementation-mechanics analogy."
 doc_version: 3
-doc_updated_at: "2026-05-08T16:47:13.951Z"
+doc_updated_at: "2026-05-08T16:47:37.020Z"
 doc_updated_by: "CODER"
 description: "Remove blueprint-recipe terminology from the catalog repository and make blueprints the atomic installable units, with packs as lightweight collections of blueprint ids."
 sections:

@@ -1,0 +1,202 @@
+{
+  "acr_version": "0.1.0",
+  "record_type": "agent_change_record",
+  "record_id": "acr_202605081643-VF8VNV",
+  "created_at": "2026-05-08T16:47:37.227Z",
+  "producer": {
+    "name": "agentplane",
+    "version": "0.4.2"
+  },
+  "repository": {
+    "vcs": "git",
+    "base_ref": "main",
+    "base_commit": "223488fc4758a667ca55e605a3a7938fff1a5f05",
+    "work_ref": "main",
+    "work_commit": "223488fc4758a667ca55e605a3a7938fff1a5f05"
+  },
+  "task": {
+    "task_id": "202605081643-VF8VNV",
+    "title": "Align catalog model with blueprint-first terminology",
+    "intent": "Remove blueprint-recipe terminology from the catalog repository and make blueprints the atomic installable units, with packs as lightweight collections of blueprint ids.",
+    "requested_by": {
+      "type": "agentplane_role",
+      "id": "ORCHESTRATOR"
+    }
+  },
+  "agent": {
+    "id": "CODER",
+    "name": "CODER",
+    "agent_type": "coding_agent",
+    "model": {
+      "provider": "unknown",
+      "name": "unknown",
+      "version": "unknown"
+    },
+    "toolchain": [
+      {
+        "name": "agentplane",
+        "version": "0.4.2"
+      }
+    ]
+  },
+  "plan": {
+    "status": "approved",
+    "artifact": {
+      "path": ".agentplane/tasks/202605081643-VF8VNV/README.md",
+      "sha256": "sha256:0ce03373d3f433d894e70310083cf64b3406e7f7fdb5dbe4aaae3a375f22a18e"
+    },
+    "approved_at": "2026-05-08T16:43:42.065Z",
+    "approved_by": {
+      "type": "agentplane_role",
+      "id": "ORCHESTRATOR"
+    }
+  },
+  "permissions": {
+    "network": {
+      "mode": "approval_required"
+    },
+    "secrets": {
+      "access": "none"
+    },
+    "tools": [
+      {
+        "name": "shell",
+        "allowed": true
+      }
+    ]
+  },
+  "policy": {
+    "policy_version": "0.1.0",
+    "decisions": [
+      {
+        "rule_id": "plan.required",
+        "decision": "pass",
+        "reason": "Approved plan exists."
+      },
+      {
+        "rule_id": "verification.required",
+        "decision": "pass",
+        "reason": "Verification is recorded as ok."
+      }
+    ]
+  },
+  "changes": {
+    "summary": "Blueprint catalog terminology and data model corrected to blueprint-first.",
+    "diff_stats": {
+      "files_changed": 0,
+      "insertions": 0,
+      "deletions": 0
+    },
+    "files": [],
+    "risk": {
+      "level": "medium",
+      "categories": [],
+      "protected_paths_touched": false
+    }
+  },
+  "verification": {
+    "status": "passed",
+    "checks": []
+  },
+  "approvals": [
+    {
+      "approval_id": "approval_202605081643-VF8VNV_plan",
+      "type": "plan_approval",
+      "decision": "approved",
+      "approved_by": {
+        "type": "agentplane_role",
+        "id": "ORCHESTRATOR"
+      },
+      "approved_at": "2026-05-08T16:43:42.065Z",
+      "scope": "task"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "task",
+      "path": ".agentplane/tasks/202605081643-VF8VNV/README.md",
+      "sha256": "sha256:0ce03373d3f433d894e70310083cf64b3406e7f7fdb5dbe4aaae3a375f22a18e"
+    },
+    {
+      "type": "plan",
+      "path": ".agentplane/tasks/202605081643-VF8VNV/README.md",
+      "sha256": "sha256:0ce03373d3f433d894e70310083cf64b3406e7f7fdb5dbe4aaae3a375f22a18e"
+    },
+    {
+      "type": "verification_log",
+      "path": ".agentplane/tasks/202605081643-VF8VNV/README.md",
+      "sha256": "sha256:0ce03373d3f433d894e70310083cf64b3406e7f7fdb5dbe4aaae3a375f22a18e"
+    },
+    {
+      "type": "other",
+      "path": ".agentplane/tasks/202605081643-VF8VNV/blueprint/resolved-snapshot.json",
+      "sha256": "sha256:31bcf35087aa6d26f9977255c593c18217ee455ddaebb7d5ac8036ee327f11a7"
+    }
+  ],
+  "result": {
+    "status": "finished",
+    "merge_ready": false,
+    "residual_risks": [
+      "Passed verification has no checks."
+    ],
+    "rollback": {
+      "available": true,
+      "notes": "Revert work_commit 223488fc4758a667ca55e605a3a7938fff1a5f05 if downstream validation fails."
+    }
+  },
+  "integrity": {
+    "digest_algorithm": "sha256",
+    "record_digest": "sha256:583c675cccf710329ecd3e71179f3267a797b9a9665edac5c396598c3a373499",
+    "canonicalization": "rfc8785-jcs",
+    "signatures": []
+  },
+  "extensions": {
+    "agentplane.blueprint": {
+      "blueprint_id": "code.direct",
+      "blueprint_version": 1,
+      "workflow_mode": "direct",
+      "route": [
+        "intake",
+        "scope",
+        "approval_gate",
+        "context_resolve",
+        "work_unit",
+        "deterministic_check",
+        "verify_record",
+        "finish"
+      ],
+      "required_evidence": [
+        {
+          "id": "code_direct.paths",
+          "kind": "changed_paths",
+          "produced_by": "work_unit",
+          "required": true
+        },
+        {
+          "id": "code_direct.check",
+          "kind": "check_result",
+          "produced_by": "deterministic_check",
+          "required": true
+        },
+        {
+          "id": "code_direct.commit",
+          "kind": "commit",
+          "produced_by": "finish",
+          "required": true
+        }
+      ],
+      "accepted_recipe_extensions": [],
+      "rejected_recipe_extensions": [],
+      "stop_reasons": [],
+      "snapshot": {
+        "state": "current",
+        "path": ".agentplane/tasks/202605081643-VF8VNV/blueprint/resolved-snapshot.json",
+        "digest": "47f8d8fc1e14518f31a96675e93d8d168ee4fc10ce516104e889427514c1bd2f",
+        "current_digest": "47f8d8fc1e14518f31a96675e93d8d168ee4fc10ce516104e889427514c1bd2f",
+        "route_changed": false,
+        "artifact_sha256": "sha256:31bcf35087aa6d26f9977255c593c18217ee455ddaebb7d5ac8036ee327f11a7",
+        "safe_command": "agentplane blueprint snapshot 202605081643-VF8VNV"
+      }
+    }
+  }
+}
