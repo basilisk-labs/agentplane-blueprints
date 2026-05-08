@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "runner-execution",
+  "name": "Runner Execution",
+  "version": "0.1.0",
+  "summary": "Blueprint route for AgentPlane runner, bundle, trace, replay, and result-manifest work.",
+  "agentplane": {
+    "min_version": "0.5.0-rc.1",
+    "blueprint_schema_version": 1
+  },
+  "blueprints": [
+    {
+      "id": "runner.execution",
+      "path": "blueprints/runner.execution.json"
+    }
+  ],
+  "policy": ["policy/runner-execution.md"],
+  "evidence_templates": ["evidence-templates/runner-execution.md"],
+  "activation": {
+    "mode": "explicit_only",
+    "recommended_allowed_ids": ["runner.execution"]
+  },
+  "tags": ["runner", "execution", "trace", "replay"]
+}

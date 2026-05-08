@@ -1,0 +1,145 @@
+{
+  "id": "runner.execution",
+  "version": 1,
+  "title": "Runner execution",
+  "description": "Route for work on runner bundles, adapters, execution state, traces, replay, resume, and result manifests.",
+  "taskKinds": ["code"],
+  "workflowModes": ["direct", "branch_pr"],
+  "allowedCommands": [
+    "agentplane task verify-show <task-id>",
+    "runner dry-run",
+    "runner focused tests",
+    "trace or replay inspection",
+    "agentplane verify <task-id> --ok|--rework"
+  ],
+  "policyModules": [
+    ".agentplane/policy/security.must.md",
+    ".agentplane/policy/dod.core.md",
+    ".agentplane/policy/dod.code.md"
+  ],
+  "contextBudget": {
+    "maxPolicyModules": 3,
+    "maxPromptBlocks": 14,
+    "rationale": "Runner work needs execution artifact context and strict policy-module bounds."
+  },
+  "nodes": [
+    { "id": "intake", "kind": "intake", "mode": "deterministic", "required": true },
+    {
+      "id": "scope",
+      "kind": "scope",
+      "mode": "deterministic",
+      "required": true,
+      "evidence": ["assumptions"]
+    },
+    {
+      "id": "approval_gate",
+      "kind": "approval_gate",
+      "mode": "approval",
+      "required": true,
+      "protected": true,
+      "evidence": ["approval"]
+    },
+    {
+      "id": "context_resolve",
+      "kind": "context_resolve",
+      "mode": "deterministic",
+      "required": true,
+      "policyModules": [
+        ".agentplane/policy/security.must.md",
+        ".agentplane/policy/dod.core.md",
+        ".agentplane/policy/dod.code.md"
+      ],
+      "evidence": ["context_manifest", "sources"]
+    },
+    {
+      "id": "work_unit",
+      "kind": "work_unit",
+      "mode": "agentic",
+      "required": true,
+      "evidence": ["changed_paths", "artifact"]
+    },
+    {
+      "id": "deterministic_check",
+      "kind": "deterministic_check",
+      "mode": "deterministic",
+      "required": true,
+      "allowedCommands": ["runner dry-run", "runner focused tests", "trace or replay inspection"],
+      "evidence": ["check_result", "artifact"]
+    },
+    {
+      "id": "artifact_write",
+      "kind": "artifact_write",
+      "mode": "deterministic",
+      "required": true,
+      "evidence": ["artifact"]
+    },
+    {
+      "id": "verify_record",
+      "kind": "verify_record",
+      "mode": "record",
+      "required": true,
+      "protected": true,
+      "evidence": ["check_result", "artifact"]
+    },
+    {
+      "id": "finish",
+      "kind": "finish",
+      "mode": "deterministic",
+      "required": true,
+      "protected": true,
+      "evidence": ["commit"]
+    }
+  ],
+  "edges": [
+    { "from": "intake", "to": "scope" },
+    { "from": "scope", "to": "approval_gate" },
+    { "from": "approval_gate", "to": "context_resolve" },
+    { "from": "context_resolve", "to": "work_unit" },
+    { "from": "work_unit", "to": "deterministic_check" },
+    { "from": "deterministic_check", "to": "artifact_write" },
+    { "from": "artifact_write", "to": "verify_record" },
+    { "from": "verify_record", "to": "finish" }
+  ],
+  "requiredEvidence": [
+    {
+      "id": "runner.bundle",
+      "kind": "artifact",
+      "required": true,
+      "producedBy": "work_unit",
+      "description": "Runner bundle, bootstrap, invocation, or adapter contract affected by the change."
+    },
+    {
+      "id": "runner.trace",
+      "kind": "artifact",
+      "required": true,
+      "producedBy": "deterministic_check",
+      "description": "Trace, replay, resume, or execution-state evidence."
+    },
+    {
+      "id": "runner.result",
+      "kind": "check_result",
+      "required": true,
+      "producedBy": "deterministic_check",
+      "description": "Result-manifest, dry-run, or focused runner test evidence."
+    },
+    {
+      "id": "runner.commit",
+      "kind": "commit",
+      "required": true,
+      "producedBy": "finish",
+      "description": "Traceable close commit or integration commit."
+    }
+  ],
+  "stopRules": [
+    {
+      "id": "runner_artifact_missing",
+      "severity": "stop",
+      "reason": "Runner behavior changed without bundle, trace, or result-manifest evidence."
+    },
+    {
+      "id": "adapter_capability_unclear",
+      "severity": "approval_required",
+      "reason": "Adapter capability or sandbox boundary changed without explicit approval."
+    }
+  ]
+}

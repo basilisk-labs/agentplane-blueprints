@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "enterprise-baseline",
+  "name": "Enterprise Baseline",
+  "version": "0.1.0",
+  "summary": "Lightweight pack that installs benchmark, regression, and runner execution blueprint recipes together.",
+  "recipes": [
+    {
+      "id": "performance-benchmark",
+      "version": "0.1.0",
+      "required": true
+    },
+    {
+      "id": "quality-regression",
+      "version": "0.1.0",
+      "required": true
+    },
+    {
+      "id": "runner-execution",
+      "version": "0.1.0",
+      "required": true
+    }
+  ],
+  "activation": {
+    "mode": "explicit_only",
+    "recommended_allowed_ids": [
+      "performance.benchmark",
+      "quality.regression",
+      "runner.execution"
+    ]
+  },
+  "tags": ["enterprise", "advanced-init", "quality"]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "catalog_id": "agentplane-blueprints",
+  "name": "AgentPlane Blueprint Catalog",
+  "description": "Installable blueprint recipes and lightweight packs for advanced AgentPlane projects.",
+  "recipes": [
+    {
+      "id": "performance-benchmark",
+      "path": "recipes/performance-benchmark/recipe.json"
+    },
+    {
+      "id": "quality-regression",
+      "path": "recipes/quality-regression/recipe.json"
+    },
+    {
+      "id": "runner-execution",
+      "path": "recipes/runner-execution/recipe.json"
+    }
+  ],
+  "packs": [
+    {
+      "id": "enterprise-baseline",
+      "path": "packs/enterprise-baseline/pack.json"
+    }
+  ]
+}
