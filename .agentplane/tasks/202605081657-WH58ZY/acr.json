@@ -1,0 +1,202 @@
+{
+  "acr_version": "0.1.0",
+  "record_type": "agent_change_record",
+  "record_id": "acr_202605081657-WH58ZY",
+  "created_at": "2026-05-08T16:59:24.055Z",
+  "producer": {
+    "name": "agentplane",
+    "version": "0.4.2"
+  },
+  "repository": {
+    "vcs": "git",
+    "base_ref": "main",
+    "base_commit": "2cac12bc796828eecbcc7a0d331cf22faff64366",
+    "work_ref": "main",
+    "work_commit": "2cac12bc796828eecbcc7a0d331cf22faff64366"
+  },
+  "task": {
+    "task_id": "202605081657-WH58ZY",
+    "title": "Clarify single blueprint install target",
+    "intent": "Document that the blueprint catalog installer supports both individual blueprint installation and pack installation, with packs expanding to multiple blueprint installs.",
+    "requested_by": {
+      "type": "agentplane_role",
+      "id": "ORCHESTRATOR"
+    }
+  },
+  "agent": {
+    "id": "DOCS",
+    "name": "DOCS",
+    "agent_type": "coding_agent",
+    "model": {
+      "provider": "unknown",
+      "name": "unknown",
+      "version": "unknown"
+    },
+    "toolchain": [
+      {
+        "name": "agentplane",
+        "version": "0.4.2"
+      }
+    ]
+  },
+  "plan": {
+    "status": "approved",
+    "artifact": {
+      "path": ".agentplane/tasks/202605081657-WH58ZY/README.md",
+      "sha256": "sha256:f34b31b5d061f8f665a8c1d2bdae71b7ca83885adfaa452d3e0e5878a361e14b"
+    },
+    "approved_at": "2026-05-08T16:57:43.751Z",
+    "approved_by": {
+      "type": "agentplane_role",
+      "id": "ORCHESTRATOR"
+    }
+  },
+  "permissions": {
+    "network": {
+      "mode": "approval_required"
+    },
+    "secrets": {
+      "access": "none"
+    },
+    "tools": [
+      {
+        "name": "shell",
+        "allowed": true
+      }
+    ]
+  },
+  "policy": {
+    "policy_version": "0.1.0",
+    "decisions": [
+      {
+        "rule_id": "plan.required",
+        "decision": "pass",
+        "reason": "Approved plan exists."
+      },
+      {
+        "rule_id": "verification.required",
+        "decision": "pass",
+        "reason": "Verification is recorded as ok."
+      }
+    ]
+  },
+  "changes": {
+    "summary": "Clarified README and docs install/development/architecture/concept model for individual blueprint installs plus pack installs; verified catalog checks, routing, doctor, and diff sanity.",
+    "diff_stats": {
+      "files_changed": 0,
+      "insertions": 0,
+      "deletions": 0
+    },
+    "files": [],
+    "risk": {
+      "level": "medium",
+      "categories": [],
+      "protected_paths_touched": false
+    }
+  },
+  "verification": {
+    "status": "passed",
+    "checks": []
+  },
+  "approvals": [
+    {
+      "approval_id": "approval_202605081657-WH58ZY_plan",
+      "type": "plan_approval",
+      "decision": "approved",
+      "approved_by": {
+        "type": "agentplane_role",
+        "id": "ORCHESTRATOR"
+      },
+      "approved_at": "2026-05-08T16:57:43.751Z",
+      "scope": "task"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "task",
+      "path": ".agentplane/tasks/202605081657-WH58ZY/README.md",
+      "sha256": "sha256:f34b31b5d061f8f665a8c1d2bdae71b7ca83885adfaa452d3e0e5878a361e14b"
+    },
+    {
+      "type": "plan",
+      "path": ".agentplane/tasks/202605081657-WH58ZY/README.md",
+      "sha256": "sha256:f34b31b5d061f8f665a8c1d2bdae71b7ca83885adfaa452d3e0e5878a361e14b"
+    },
+    {
+      "type": "verification_log",
+      "path": ".agentplane/tasks/202605081657-WH58ZY/README.md",
+      "sha256": "sha256:f34b31b5d061f8f665a8c1d2bdae71b7ca83885adfaa452d3e0e5878a361e14b"
+    },
+    {
+      "type": "other",
+      "path": ".agentplane/tasks/202605081657-WH58ZY/blueprint/resolved-snapshot.json",
+      "sha256": "sha256:d48181b9cd9b8959e105498924d13dfe3a24c727dc1ec786dce47670ae92a8d5"
+    }
+  ],
+  "result": {
+    "status": "finished",
+    "merge_ready": false,
+    "residual_risks": [
+      "Passed verification has no checks."
+    ],
+    "rollback": {
+      "available": true,
+      "notes": "Revert work_commit 2cac12bc796828eecbcc7a0d331cf22faff64366 if downstream validation fails."
+    }
+  },
+  "integrity": {
+    "digest_algorithm": "sha256",
+    "record_digest": "sha256:afb216fc8693c5e5368cca9a456bbdd61682afde15ea2e175aa71187e52a5da2",
+    "canonicalization": "rfc8785-jcs",
+    "signatures": []
+  },
+  "extensions": {
+    "agentplane.blueprint": {
+      "blueprint_id": "docs.change",
+      "blueprint_version": 1,
+      "workflow_mode": "direct",
+      "route": [
+        "intake",
+        "scope",
+        "context_resolve",
+        "work_unit",
+        "deterministic_check",
+        "artifact_write",
+        "verify_record",
+        "finish"
+      ],
+      "required_evidence": [
+        {
+          "id": "docs.paths",
+          "kind": "changed_paths",
+          "produced_by": "work_unit",
+          "required": true
+        },
+        {
+          "id": "docs.check",
+          "kind": "check_result",
+          "produced_by": "deterministic_check",
+          "required": true
+        },
+        {
+          "id": "docs.artifact",
+          "kind": "artifact",
+          "produced_by": "artifact_write",
+          "required": true
+        }
+      ],
+      "accepted_recipe_extensions": [],
+      "rejected_recipe_extensions": [],
+      "stop_reasons": [],
+      "snapshot": {
+        "state": "current",
+        "path": ".agentplane/tasks/202605081657-WH58ZY/blueprint/resolved-snapshot.json",
+        "digest": "ad44c25b3f7937510ffe3a8406378ffb147a58fcaaab4987490d5ea052bd55c3",
+        "current_digest": "ad44c25b3f7937510ffe3a8406378ffb147a58fcaaab4987490d5ea052bd55c3",
+        "route_changed": false,
+        "artifact_sha256": "sha256:d48181b9cd9b8959e105498924d13dfe3a24c727dc1ec786dce47670ae92a8d5",
+        "safe_command": "agentplane blueprint snapshot 202605081657-WH58ZY"
+      }
+    }
+  }
+}
