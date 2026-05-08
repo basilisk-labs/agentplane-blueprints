@@ -1,10 +1,11 @@
 ---
 id: "202605081626-RTF5D2"
 title: "Bootstrap blueprint catalog repository"
-status: "DOING"
+result_summary: "Initial blueprint catalog repository scaffold implemented and verified."
+status: "DONE"
 priority: "high"
 owner: "CODER"
-revision: 5
+revision: 6
 origin:
   system: "manual"
 depends_on: []
@@ -23,11 +24,16 @@ verification:
   updated_at: "2026-05-08T16:33:08.726Z"
   updated_by: "CODER"
   note: "Command: npm run check. Result: pass. Evidence: catalog validation passed for 3 recipes, 1 pack, and 3 blueprints; generated dist/index.json is current. Command: ap blueprint validate for performance.benchmark, quality.regression, and runner.execution. Result: pass. Evidence: all three blueprint files validate as AgentPlane blueprint schema version 1. Command: node .agentplane/policy/check-routing.mjs && ap doctor && git diff --check. Result: pass. Evidence: policy routing OK, doctor OK with project blueprint compatibility info only, and whitespace diff check clean. Scope: initial catalog repository structure, scripts, documentation, example recipes, pack, generated index, and task blueprint snapshot."
-commit: null
+commit:
+  hash: "ef77a5728fb0b2b5d68adc95f4805cba2e1e912f"
+  message: "✨ RTF5D2 code: bootstrap blueprint catalog repository"
 comments:
   -
     author: "CODER"
     body: "Start: Implementing the initial blueprint catalog repository as approved, including schemas, example packs, validation scripts, and development documentation."
+  -
+    author: "CODER"
+    body: "Verified: Initial blueprint catalog repository is implemented with schemas, example recipes, lightweight pack metadata, validation/build scripts, generated dist index, and development documentation."
 events:
   -
     type: "status"
@@ -42,8 +48,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "Command: npm run check. Result: pass. Evidence: catalog validation passed for 3 recipes, 1 pack, and 3 blueprints; generated dist/index.json is current. Command: ap blueprint validate for performance.benchmark, quality.regression, and runner.execution. Result: pass. Evidence: all three blueprint files validate as AgentPlane blueprint schema version 1. Command: node .agentplane/policy/check-routing.mjs && ap doctor && git diff --check. Result: pass. Evidence: policy routing OK, doctor OK with project blueprint compatibility info only, and whitespace diff check clean. Scope: initial catalog repository structure, scripts, documentation, example recipes, pack, generated index, and task blueprint snapshot."
+  -
+    type: "status"
+    at: "2026-05-08T16:35:33.219Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: Initial blueprint catalog repository is implemented with schemas, example recipes, lightweight pack metadata, validation/build scripts, generated dist index, and development documentation."
 doc_version: 3
-doc_updated_at: "2026-05-08T16:33:08.749Z"
+doc_updated_at: "2026-05-08T16:35:33.219Z"
 doc_updated_by: "CODER"
 description: "Create the initial repository structure, validation code, examples, and development documentation for installable AgentPlane blueprint catalogs and lightweight packs."
 sections:
