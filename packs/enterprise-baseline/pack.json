@@ -3,8 +3,8 @@
   "id": "enterprise-baseline",
   "name": "Enterprise Baseline",
   "version": "0.1.0",
-  "summary": "Lightweight pack that installs benchmark, regression, and runner execution blueprint recipes together.",
-  "recipes": [
+  "summary": "Lightweight pack that installs benchmark, regression, and runner execution blueprints together.",
+  "blueprints": [
     {
       "id": "performance-benchmark",
       "version": "0.1.0",

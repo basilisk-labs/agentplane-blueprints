@@ -2,7 +2,7 @@
   "name": "@agentplane/blueprints-catalog",
   "version": "0.1.0",
   "private": true,
-  "description": "Catalog source for installable AgentPlane blueprint recipes and lightweight packs.",
+  "description": "Catalog source for installable AgentPlane blueprints and lightweight packs.",
   "type": "module",
   "scripts": {
     "build": "node scripts/build-index.mjs",

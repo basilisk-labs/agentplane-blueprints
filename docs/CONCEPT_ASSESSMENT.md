@@ -2,9 +2,9 @@
 
 ## Assessment
 
-The concept is directionally strong: reuse the external-repository mechanics of recipes, but keep
-blueprint activation stricter. It preserves a small AgentPlane core while giving organizations a
-place to encode audit and evidence routes.
+The concept is directionally strong: reuse the external-repository mechanics of AgentPlane recipes,
+but keep blueprints as a fully parallel artifact type with stricter activation. It preserves a small
+AgentPlane core while giving organizations a place to encode audit and evidence routes.
 
 ## What Is Good
 
@@ -20,20 +20,20 @@ place to encode audit and evidence routes.
 
 3. Packs are correctly lightweight.
 
-   A pack as a wrapper over recipes is safer than a pack as another lifecycle authority. The source
-   of route behavior remains the recipe's blueprint definitions.
+   A pack as a wrapper over blueprints is safer than a pack as another lifecycle authority. The
+   source of route behavior remains each blueprint definition.
 
 4. Offline reproducibility is possible.
 
-   Vendoring recipes into the project means CI and agents do not need network access to understand
+   Vendoring blueprints into the project means CI and agents do not need network access to understand
    route contracts.
 
 ## What Is Bad
 
-1. Naming can confuse users.
+1. Naming can confuse users if recipes leak into the model.
 
-   "Recipe", "blueprint recipe", and "pack" can blur together. The product must define that a
-   blueprint recipe installs route contracts, while a normal recipe installs domain guidance.
+   Recipes are only the UX analogy for sync/install/cache mechanics. The artifact type in this
+   repository is blueprint, and packs are collections of blueprints.
 
 2. Trust risk is higher than with normal recipes.
 
@@ -42,8 +42,8 @@ place to encode audit and evidence routes.
 
 3. Automatic selection can become opaque.
 
-   If advanced init enables a pack and resolver silently starts selecting new routes, users will not
-   understand why tasks changed behavior.
+   If advanced init enables a pack and the resolver silently starts selecting new routes, users will
+   not understand why tasks changed behavior.
 
 4. Catalog drift can break projects.
 
@@ -52,7 +52,7 @@ place to encode audit and evidence routes.
 
 5. Packs can hide scope expansion.
 
-   Installing a pack may pull in more recipes than the user understands. Pack expansion must be
+   Installing a pack may pull in more blueprints than the user understands. Pack expansion must be
    printed before write.
 
 ## Improvements
@@ -60,7 +60,7 @@ place to encode audit and evidence routes.
 1. Use three verbs: sync, install, activate.
 
    - sync: download catalog metadata to cache;
-   - install: vendor recipes into the project;
+   - install: vendor blueprints into the project;
    - activate: allow specific blueprint ids in project trust config.
 
 2. Keep activation at blueprint id level.
@@ -72,7 +72,7 @@ place to encode audit and evidence routes.
 
    Before writing trust config, show:
 
-   - recipes installed;
+   - blueprints installed;
    - blueprint ids added;
    - policy files added;
    - evidence templates added;
@@ -85,7 +85,7 @@ place to encode audit and evidence routes.
 
 5. Add source provenance.
 
-   Project metadata should record catalog id, recipe version, digest, install mode, and activation
+   Project metadata should record catalog id, blueprint version, digest, install mode, and activation
    timestamp.
 
 6. Keep built-ins unshadowable.
@@ -100,7 +100,7 @@ base init
 
 advanced init
   optional catalog sync
-  install selected blueprint recipes or packs
+  install selected blueprints or packs
   explicit activation preview
   project-local vendored files
 

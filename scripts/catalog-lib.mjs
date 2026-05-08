@@ -53,13 +53,13 @@ export function canonicalJson(value) {
 
 export async function loadCatalog() {
   const index = await readJson("catalog/index.json");
-  const recipes = [];
+  const blueprints = [];
   const packs = [];
 
-  for (const entry of index.recipes ?? []) {
-    recipes.push({
+  for (const entry of index.blueprints ?? []) {
+    blueprints.push({
       entry,
-      recipe: await readJson(entry.path),
+      blueprint: await readJson(entry.path),
     });
   }
 
@@ -70,5 +70,5 @@ export async function loadCatalog() {
     });
   }
 
-  return { index, recipes, packs };
+  return { index, blueprints, packs };
 }

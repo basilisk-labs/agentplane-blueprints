@@ -1,0 +1,153 @@
+{
+  "id": "performance.benchmark",
+  "version": 1,
+  "title": "Performance benchmark",
+  "description": "Code or diagnostics work where success depends on a reproducible baseline/comparison benchmark.",
+  "taskKinds": ["code"],
+  "workflowModes": ["direct", "branch_pr"],
+  "allowedCommands": [
+    "agentplane task verify-show <task-id>",
+    "project benchmark command",
+    "project focused checks",
+    "agentplane verify <task-id> --ok|--rework"
+  ],
+  "policyModules": [
+    ".agentplane/policy/security.must.md",
+    ".agentplane/policy/dod.core.md",
+    ".agentplane/policy/dod.code.md"
+  ],
+  "contextBudget": {
+    "maxPolicyModules": 3,
+    "maxPromptBlocks": 12,
+    "rationale": "Benchmark work needs code DoD plus benchmark method context, not a wider policy graph."
+  },
+  "nodes": [
+    {
+      "id": "intake",
+      "kind": "intake",
+      "mode": "deterministic",
+      "required": true
+    },
+    {
+      "id": "scope",
+      "kind": "scope",
+      "mode": "deterministic",
+      "required": true,
+      "evidence": ["assumptions"]
+    },
+    {
+      "id": "approval_gate",
+      "kind": "approval_gate",
+      "mode": "approval",
+      "required": true,
+      "protected": true,
+      "evidence": ["approval"]
+    },
+    {
+      "id": "context_resolve",
+      "kind": "context_resolve",
+      "mode": "deterministic",
+      "required": true,
+      "policyModules": [
+        ".agentplane/policy/security.must.md",
+        ".agentplane/policy/dod.core.md",
+        ".agentplane/policy/dod.code.md"
+      ],
+      "evidence": ["context_manifest", "sources"]
+    },
+    {
+      "id": "work_unit",
+      "kind": "work_unit",
+      "mode": "agentic",
+      "required": true,
+      "evidence": ["changed_paths", "artifact"]
+    },
+    {
+      "id": "deterministic_check",
+      "kind": "deterministic_check",
+      "mode": "deterministic",
+      "required": true,
+      "allowedCommands": ["project benchmark command", "project focused checks"],
+      "evidence": ["check_result"]
+    },
+    {
+      "id": "verify_record",
+      "kind": "verify_record",
+      "mode": "record",
+      "required": true,
+      "protected": true,
+      "evidence": ["check_result", "artifact"]
+    },
+    {
+      "id": "finish",
+      "kind": "finish",
+      "mode": "deterministic",
+      "required": true,
+      "protected": true,
+      "evidence": ["commit"]
+    }
+  ],
+  "edges": [
+    { "from": "intake", "to": "scope" },
+    { "from": "scope", "to": "approval_gate" },
+    { "from": "approval_gate", "to": "context_resolve" },
+    { "from": "context_resolve", "to": "work_unit" },
+    { "from": "work_unit", "to": "deterministic_check" },
+    { "from": "deterministic_check", "to": "verify_record" },
+    { "from": "verify_record", "to": "finish" }
+  ],
+  "requiredEvidence": [
+    {
+      "id": "performance.method",
+      "kind": "artifact",
+      "required": true,
+      "producedBy": "work_unit",
+      "description": "Benchmark method, environment, warm/cold mode, repeat count, and threshold."
+    },
+    {
+      "id": "performance.baseline",
+      "kind": "check_result",
+      "required": true,
+      "producedBy": "deterministic_check",
+      "description": "Baseline measurement or accepted historical baseline."
+    },
+    {
+      "id": "performance.comparison",
+      "kind": "check_result",
+      "required": true,
+      "producedBy": "deterministic_check",
+      "description": "Comparison measurement after the change, including noisy/inconclusive classification."
+    },
+    {
+      "id": "performance.commit",
+      "kind": "commit",
+      "required": true,
+      "producedBy": "finish",
+      "description": "Traceable close commit or integration commit."
+    }
+  ],
+  "stopRules": [
+    {
+      "id": "benchmark_method_missing",
+      "severity": "stop",
+      "reason": "Performance claim lacks a reproducible benchmark method."
+    },
+    {
+      "id": "threshold_not_declared",
+      "severity": "approval_required",
+      "reason": "Benchmark success threshold is missing or changed after implementation."
+    }
+  ],
+  "recipeExtensionPoints": [
+    {
+      "nodeKind": "context_resolve",
+      "allowed": ["context_hint", "risk_hint"],
+      "rejected": ["permission_bypass", "policy_override"]
+    },
+    {
+      "nodeKind": "deterministic_check",
+      "allowed": ["check_suggestion", "evidence_requirement"],
+      "rejected": ["required_check_disable"]
+    }
+  ]
+}

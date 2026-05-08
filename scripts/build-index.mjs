@@ -6,17 +6,15 @@ import { canonicalJson, loadCatalog, readJson, relativeChildPath, rootDir } from
 const checkOnly = process.argv.includes("--check");
 const catalog = await loadCatalog();
 
-const recipes = [];
-for (const { entry, recipe } of catalog.recipes) {
-  recipes.push({
-    ...recipe,
+const blueprints = [];
+for (const { entry, blueprint } of catalog.blueprints) {
+  blueprints.push({
+    ...blueprint,
     source_path: entry.path,
-    blueprints: await Promise.all(
-      recipe.blueprints.map(async (blueprintEntry) => ({
-        ...blueprintEntry,
-        definition: await readJson(relativeChildPath(entry.path, blueprintEntry.path)),
-      })),
-    ),
+    definition: {
+      ...blueprint.definition,
+      content: await readJson(relativeChildPath(entry.path, blueprint.definition.path)),
+    },
   });
 }
 
@@ -31,7 +29,7 @@ const output = {
   name: catalog.index.name,
   description: catalog.index.description,
   generated_from: "catalog/index.json",
-  recipes,
+  blueprints,
   packs,
 };
 

@@ -11,9 +11,9 @@ This repository provides those organization-specific routes without adding them 
 ## Terms
 
 - Built-in blueprint: shipped in AgentPlane core.
-- Blueprint recipe: installable unit containing one or more project-local blueprint definitions and
-  optional supporting materials.
-- Pack: lightweight wrapper that references multiple blueprint recipes for simultaneous install.
+- Catalog blueprint: installable unit containing one project-local blueprint definition and optional
+  supporting materials.
+- Pack: lightweight wrapper that references multiple blueprints for simultaneous install.
 - Activation: explicit project-level trust decision that allows selected blueprint ids.
 - Selection: resolver decision that chooses an activated blueprint for a task.
 
@@ -28,7 +28,7 @@ AgentPlane core
 
 Blueprint catalog
   index
-  recipes
+  blueprints
   packs
   schemas
   validation and generated dist index
@@ -45,49 +45,49 @@ Baseline mode:
 
 1. `agentplane init` uses the built-in seven blueprints.
 2. No catalog network access is required.
-3. No external blueprint recipes are installed.
+3. No external blueprints are installed.
 
 Advanced mode:
 
 1. AgentPlane refreshes the blueprint catalog index into a user cache.
-2. User selects recipes or packs.
-3. AgentPlane vendors selected recipes into the project.
+2. User selects blueprints or packs.
+3. AgentPlane vendors selected blueprints into the project.
 4. AgentPlane writes project-local blueprint files.
 5. AgentPlane writes `.agentplane/blueprints/config.json` with explicit allowlist activation.
 6. Resolver can use only trusted and compatible ids.
 
 ## Why Packs Are Lightweight
 
-Packs must not define lifecycle behavior directly. A pack should only group recipes:
+Packs must not define lifecycle behavior directly. A pack should only group blueprints:
 
 ```json
 {
   "id": "enterprise-baseline",
-  "recipes": [{ "id": "performance-benchmark" }]
+  "blueprints": [{ "id": "performance-benchmark" }]
 }
 ```
 
-This keeps the trust decision inspectable. The actual blueprint definitions remain in recipes, and
-activation still happens at blueprint id level.
+This keeps the trust decision inspectable. The actual route definitions remain in blueprints, and
+activation still happens at route blueprint id level.
 
 ## Cache Model
 
-The intended cache mirrors recipe catalog behavior:
+The intended cache mirrors the external catalog mechanics used by AgentPlane recipes:
 
 ```text
 ~/.agentplane/blueprints/
   indexes/
-  recipes/
+  blueprints/
   packs/
 ```
 
-The project should not depend on the cache at runtime. Installed recipes are vendored into the
+The project should not depend on the cache at runtime. Installed blueprints are vendored into the
 project so CI and agents can resolve the same route without network access.
 
 ## Security Model
 
-Blueprint recipes are stronger than normal recipes because they define evidence and approval
-routes. Therefore:
+External blueprints are stronger than normal AgentPlane recipes because they define evidence and
+approval routes. Therefore:
 
 - install is not activation;
 - activation is explicit allowlist;
@@ -98,12 +98,11 @@ routes. Therefore:
 
 ## Compatibility
 
-Every recipe declares:
+Every catalog blueprint declares:
 
-- recipe schema version;
 - AgentPlane minimum version;
 - blueprint schema version;
-- blueprint ids;
+- route blueprint id;
 - local file paths.
 
 Future catalog signing should cover both source index and generated dist index.

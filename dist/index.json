@@ -2,9 +2,9 @@
   "schema_version": 1,
   "catalog_id": "agentplane-blueprints",
   "name": "AgentPlane Blueprint Catalog",
-  "description": "Installable blueprint recipes and lightweight packs for advanced AgentPlane projects.",
+  "description": "Installable blueprints and lightweight packs for advanced AgentPlane projects.",
   "generated_from": "catalog/index.json",
-  "recipes": [
+  "blueprints": [
     {
       "schema_version": 1,
       "id": "performance-benchmark",
@@ -15,222 +15,220 @@
         "min_version": "0.5.0-rc.1",
         "blueprint_schema_version": 1
       },
-      "blueprints": [
-        {
+      "definition": {
+        "id": "performance.benchmark",
+        "path": "blueprints/performance.benchmark.json",
+        "content": {
           "id": "performance.benchmark",
-          "path": "blueprints/performance.benchmark.json",
-          "definition": {
-            "id": "performance.benchmark",
-            "version": 1,
-            "title": "Performance benchmark",
-            "description": "Code or diagnostics work where success depends on a reproducible baseline/comparison benchmark.",
-            "taskKinds": [
-              "code"
-            ],
-            "workflowModes": [
-              "direct",
-              "branch_pr"
-            ],
-            "allowedCommands": [
-              "agentplane task verify-show <task-id>",
-              "project benchmark command",
-              "project focused checks",
-              "agentplane verify <task-id> --ok|--rework"
-            ],
-            "policyModules": [
-              ".agentplane/policy/security.must.md",
-              ".agentplane/policy/dod.core.md",
-              ".agentplane/policy/dod.code.md"
-            ],
-            "contextBudget": {
-              "maxPolicyModules": 3,
-              "maxPromptBlocks": 12,
-              "rationale": "Benchmark work needs code DoD plus benchmark method context, not a wider policy graph."
+          "version": 1,
+          "title": "Performance benchmark",
+          "description": "Code or diagnostics work where success depends on a reproducible baseline/comparison benchmark.",
+          "taskKinds": [
+            "code"
+          ],
+          "workflowModes": [
+            "direct",
+            "branch_pr"
+          ],
+          "allowedCommands": [
+            "agentplane task verify-show <task-id>",
+            "project benchmark command",
+            "project focused checks",
+            "agentplane verify <task-id> --ok|--rework"
+          ],
+          "policyModules": [
+            ".agentplane/policy/security.must.md",
+            ".agentplane/policy/dod.core.md",
+            ".agentplane/policy/dod.code.md"
+          ],
+          "contextBudget": {
+            "maxPolicyModules": 3,
+            "maxPromptBlocks": 12,
+            "rationale": "Benchmark work needs code DoD plus benchmark method context, not a wider policy graph."
+          },
+          "nodes": [
+            {
+              "id": "intake",
+              "kind": "intake",
+              "mode": "deterministic",
+              "required": true
             },
-            "nodes": [
-              {
-                "id": "intake",
-                "kind": "intake",
-                "mode": "deterministic",
-                "required": true
-              },
-              {
-                "id": "scope",
-                "kind": "scope",
-                "mode": "deterministic",
-                "required": true,
-                "evidence": [
-                  "assumptions"
-                ]
-              },
-              {
-                "id": "approval_gate",
-                "kind": "approval_gate",
-                "mode": "approval",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "approval"
-                ]
-              },
-              {
-                "id": "context_resolve",
-                "kind": "context_resolve",
-                "mode": "deterministic",
-                "required": true,
-                "policyModules": [
-                  ".agentplane/policy/security.must.md",
-                  ".agentplane/policy/dod.core.md",
-                  ".agentplane/policy/dod.code.md"
-                ],
-                "evidence": [
-                  "context_manifest",
-                  "sources"
-                ]
-              },
-              {
-                "id": "work_unit",
-                "kind": "work_unit",
-                "mode": "agentic",
-                "required": true,
-                "evidence": [
-                  "changed_paths",
-                  "artifact"
-                ]
-              },
-              {
-                "id": "deterministic_check",
-                "kind": "deterministic_check",
-                "mode": "deterministic",
-                "required": true,
-                "allowedCommands": [
-                  "project benchmark command",
-                  "project focused checks"
-                ],
-                "evidence": [
-                  "check_result"
-                ]
-              },
-              {
-                "id": "verify_record",
-                "kind": "verify_record",
-                "mode": "record",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "check_result",
-                  "artifact"
-                ]
-              },
-              {
-                "id": "finish",
-                "kind": "finish",
-                "mode": "deterministic",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "commit"
-                ]
-              }
-            ],
-            "edges": [
-              {
-                "from": "intake",
-                "to": "scope"
-              },
-              {
-                "from": "scope",
-                "to": "approval_gate"
-              },
-              {
-                "from": "approval_gate",
-                "to": "context_resolve"
-              },
-              {
-                "from": "context_resolve",
-                "to": "work_unit"
-              },
-              {
-                "from": "work_unit",
-                "to": "deterministic_check"
-              },
-              {
-                "from": "deterministic_check",
-                "to": "verify_record"
-              },
-              {
-                "from": "verify_record",
-                "to": "finish"
-              }
-            ],
-            "requiredEvidence": [
-              {
-                "id": "performance.method",
-                "kind": "artifact",
-                "required": true,
-                "producedBy": "work_unit",
-                "description": "Benchmark method, environment, warm/cold mode, repeat count, and threshold."
-              },
-              {
-                "id": "performance.baseline",
-                "kind": "check_result",
-                "required": true,
-                "producedBy": "deterministic_check",
-                "description": "Baseline measurement or accepted historical baseline."
-              },
-              {
-                "id": "performance.comparison",
-                "kind": "check_result",
-                "required": true,
-                "producedBy": "deterministic_check",
-                "description": "Comparison measurement after the change, including noisy/inconclusive classification."
-              },
-              {
-                "id": "performance.commit",
-                "kind": "commit",
-                "required": true,
-                "producedBy": "finish",
-                "description": "Traceable close commit or integration commit."
-              }
-            ],
-            "stopRules": [
-              {
-                "id": "benchmark_method_missing",
-                "severity": "stop",
-                "reason": "Performance claim lacks a reproducible benchmark method."
-              },
-              {
-                "id": "threshold_not_declared",
-                "severity": "approval_required",
-                "reason": "Benchmark success threshold is missing or changed after implementation."
-              }
-            ],
-            "recipeExtensionPoints": [
-              {
-                "nodeKind": "context_resolve",
-                "allowed": [
-                  "context_hint",
-                  "risk_hint"
-                ],
-                "rejected": [
-                  "permission_bypass",
-                  "policy_override"
-                ]
-              },
-              {
-                "nodeKind": "deterministic_check",
-                "allowed": [
-                  "check_suggestion",
-                  "evidence_requirement"
-                ],
-                "rejected": [
-                  "required_check_disable"
-                ]
-              }
-            ]
-          }
+            {
+              "id": "scope",
+              "kind": "scope",
+              "mode": "deterministic",
+              "required": true,
+              "evidence": [
+                "assumptions"
+              ]
+            },
+            {
+              "id": "approval_gate",
+              "kind": "approval_gate",
+              "mode": "approval",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "approval"
+              ]
+            },
+            {
+              "id": "context_resolve",
+              "kind": "context_resolve",
+              "mode": "deterministic",
+              "required": true,
+              "policyModules": [
+                ".agentplane/policy/security.must.md",
+                ".agentplane/policy/dod.core.md",
+                ".agentplane/policy/dod.code.md"
+              ],
+              "evidence": [
+                "context_manifest",
+                "sources"
+              ]
+            },
+            {
+              "id": "work_unit",
+              "kind": "work_unit",
+              "mode": "agentic",
+              "required": true,
+              "evidence": [
+                "changed_paths",
+                "artifact"
+              ]
+            },
+            {
+              "id": "deterministic_check",
+              "kind": "deterministic_check",
+              "mode": "deterministic",
+              "required": true,
+              "allowedCommands": [
+                "project benchmark command",
+                "project focused checks"
+              ],
+              "evidence": [
+                "check_result"
+              ]
+            },
+            {
+              "id": "verify_record",
+              "kind": "verify_record",
+              "mode": "record",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "check_result",
+                "artifact"
+              ]
+            },
+            {
+              "id": "finish",
+              "kind": "finish",
+              "mode": "deterministic",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "commit"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "from": "intake",
+              "to": "scope"
+            },
+            {
+              "from": "scope",
+              "to": "approval_gate"
+            },
+            {
+              "from": "approval_gate",
+              "to": "context_resolve"
+            },
+            {
+              "from": "context_resolve",
+              "to": "work_unit"
+            },
+            {
+              "from": "work_unit",
+              "to": "deterministic_check"
+            },
+            {
+              "from": "deterministic_check",
+              "to": "verify_record"
+            },
+            {
+              "from": "verify_record",
+              "to": "finish"
+            }
+          ],
+          "requiredEvidence": [
+            {
+              "id": "performance.method",
+              "kind": "artifact",
+              "required": true,
+              "producedBy": "work_unit",
+              "description": "Benchmark method, environment, warm/cold mode, repeat count, and threshold."
+            },
+            {
+              "id": "performance.baseline",
+              "kind": "check_result",
+              "required": true,
+              "producedBy": "deterministic_check",
+              "description": "Baseline measurement or accepted historical baseline."
+            },
+            {
+              "id": "performance.comparison",
+              "kind": "check_result",
+              "required": true,
+              "producedBy": "deterministic_check",
+              "description": "Comparison measurement after the change, including noisy/inconclusive classification."
+            },
+            {
+              "id": "performance.commit",
+              "kind": "commit",
+              "required": true,
+              "producedBy": "finish",
+              "description": "Traceable close commit or integration commit."
+            }
+          ],
+          "stopRules": [
+            {
+              "id": "benchmark_method_missing",
+              "severity": "stop",
+              "reason": "Performance claim lacks a reproducible benchmark method."
+            },
+            {
+              "id": "threshold_not_declared",
+              "severity": "approval_required",
+              "reason": "Benchmark success threshold is missing or changed after implementation."
+            }
+          ],
+          "recipeExtensionPoints": [
+            {
+              "nodeKind": "context_resolve",
+              "allowed": [
+                "context_hint",
+                "risk_hint"
+              ],
+              "rejected": [
+                "permission_bypass",
+                "policy_override"
+              ]
+            },
+            {
+              "nodeKind": "deterministic_check",
+              "allowed": [
+                "check_suggestion",
+                "evidence_requirement"
+              ],
+              "rejected": [
+                "required_check_disable"
+              ]
+            }
+          ]
         }
-      ],
+      },
       "policy": [
         "policy/performance-benchmark.md"
       ],
@@ -248,7 +246,7 @@
         "benchmark",
         "regression"
       ],
-      "source_path": "recipes/performance-benchmark/recipe.json"
+      "source_path": "blueprints/performance-benchmark/blueprint.json"
     },
     {
       "schema_version": 1,
@@ -260,185 +258,183 @@
         "min_version": "0.5.0-rc.1",
         "blueprint_schema_version": 1
       },
-      "blueprints": [
-        {
+      "definition": {
+        "id": "quality.regression",
+        "path": "blueprints/quality.regression.json",
+        "content": {
           "id": "quality.regression",
-          "path": "blueprints/quality.regression.json",
-          "definition": {
-            "id": "quality.regression",
-            "version": 1,
-            "title": "Quality regression",
-            "description": "Route for fixing or proving regressions in tests, CI, lint, typecheck, coverage, or generated baselines.",
-            "taskKinds": [
-              "code"
-            ],
-            "workflowModes": [
-              "direct",
-              "branch_pr"
-            ],
-            "allowedCommands": [
-              "agentplane task verify-show <task-id>",
-              "failing command reproduction",
-              "focused regression check",
-              "project quality gate",
-              "agentplane verify <task-id> --ok|--rework"
-            ],
-            "policyModules": [
-              ".agentplane/policy/security.must.md",
-              ".agentplane/policy/dod.core.md",
-              ".agentplane/policy/dod.code.md"
-            ],
-            "contextBudget": {
-              "maxPolicyModules": 3,
-              "maxPromptBlocks": 12,
-              "rationale": "Regression work needs quality-gate evidence and a narrow code policy set."
+          "version": 1,
+          "title": "Quality regression",
+          "description": "Route for fixing or proving regressions in tests, CI, lint, typecheck, coverage, or generated baselines.",
+          "taskKinds": [
+            "code"
+          ],
+          "workflowModes": [
+            "direct",
+            "branch_pr"
+          ],
+          "allowedCommands": [
+            "agentplane task verify-show <task-id>",
+            "failing command reproduction",
+            "focused regression check",
+            "project quality gate",
+            "agentplane verify <task-id> --ok|--rework"
+          ],
+          "policyModules": [
+            ".agentplane/policy/security.must.md",
+            ".agentplane/policy/dod.core.md",
+            ".agentplane/policy/dod.code.md"
+          ],
+          "contextBudget": {
+            "maxPolicyModules": 3,
+            "maxPromptBlocks": 12,
+            "rationale": "Regression work needs quality-gate evidence and a narrow code policy set."
+          },
+          "nodes": [
+            {
+              "id": "intake",
+              "kind": "intake",
+              "mode": "deterministic",
+              "required": true
             },
-            "nodes": [
-              {
-                "id": "intake",
-                "kind": "intake",
-                "mode": "deterministic",
-                "required": true
-              },
-              {
-                "id": "scope",
-                "kind": "scope",
-                "mode": "deterministic",
-                "required": true,
-                "evidence": [
-                  "assumptions"
-                ]
-              },
-              {
-                "id": "context_resolve",
-                "kind": "context_resolve",
-                "mode": "deterministic",
-                "required": true,
-                "policyModules": [
-                  ".agentplane/policy/security.must.md",
-                  ".agentplane/policy/dod.core.md",
-                  ".agentplane/policy/dod.code.md"
-                ],
-                "evidence": [
-                  "context_manifest",
-                  "sources"
-                ]
-              },
-              {
-                "id": "work_unit",
-                "kind": "work_unit",
-                "mode": "agentic",
-                "required": true,
-                "evidence": [
-                  "changed_paths"
-                ]
-              },
-              {
-                "id": "deterministic_check",
-                "kind": "deterministic_check",
-                "mode": "deterministic",
-                "required": true,
-                "allowedCommands": [
-                  "failing command reproduction",
-                  "focused regression check",
-                  "project quality gate"
-                ],
-                "evidence": [
-                  "check_result"
-                ]
-              },
-              {
-                "id": "verify_record",
-                "kind": "verify_record",
-                "mode": "record",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "check_result"
-                ]
-              },
-              {
-                "id": "finish",
-                "kind": "finish",
-                "mode": "deterministic",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "commit"
-                ]
-              }
-            ],
-            "edges": [
-              {
-                "from": "intake",
-                "to": "scope"
-              },
-              {
-                "from": "scope",
-                "to": "context_resolve"
-              },
-              {
-                "from": "context_resolve",
-                "to": "work_unit"
-              },
-              {
-                "from": "work_unit",
-                "to": "deterministic_check"
-              },
-              {
-                "from": "deterministic_check",
-                "to": "verify_record"
-              },
-              {
-                "from": "verify_record",
-                "to": "finish"
-              }
-            ],
-            "requiredEvidence": [
-              {
-                "id": "quality.failure",
-                "kind": "check_result",
-                "required": true,
-                "producedBy": "deterministic_check",
-                "description": "Original failing command, hosted check, or accepted reproduction note."
-              },
-              {
-                "id": "quality.fix",
-                "kind": "changed_paths",
-                "required": true,
-                "producedBy": "work_unit",
-                "description": "Changed paths that address the regression."
-              },
-              {
-                "id": "quality.proof",
-                "kind": "check_result",
-                "required": true,
-                "producedBy": "deterministic_check",
-                "description": "Focused regression proof plus broader quality gate when practical."
-              },
-              {
-                "id": "quality.commit",
-                "kind": "commit",
-                "required": true,
-                "producedBy": "finish",
-                "description": "Traceable close commit or integration commit."
-              }
-            ],
-            "stopRules": [
-              {
-                "id": "failure_not_reproduced",
-                "severity": "warn",
-                "reason": "The original failure was not reproduced; verification must state residual uncertainty."
-              },
-              {
-                "id": "quality_gate_skipped",
-                "severity": "approval_required",
-                "reason": "A required quality gate was skipped or replaced."
-              }
-            ]
-          }
+            {
+              "id": "scope",
+              "kind": "scope",
+              "mode": "deterministic",
+              "required": true,
+              "evidence": [
+                "assumptions"
+              ]
+            },
+            {
+              "id": "context_resolve",
+              "kind": "context_resolve",
+              "mode": "deterministic",
+              "required": true,
+              "policyModules": [
+                ".agentplane/policy/security.must.md",
+                ".agentplane/policy/dod.core.md",
+                ".agentplane/policy/dod.code.md"
+              ],
+              "evidence": [
+                "context_manifest",
+                "sources"
+              ]
+            },
+            {
+              "id": "work_unit",
+              "kind": "work_unit",
+              "mode": "agentic",
+              "required": true,
+              "evidence": [
+                "changed_paths"
+              ]
+            },
+            {
+              "id": "deterministic_check",
+              "kind": "deterministic_check",
+              "mode": "deterministic",
+              "required": true,
+              "allowedCommands": [
+                "failing command reproduction",
+                "focused regression check",
+                "project quality gate"
+              ],
+              "evidence": [
+                "check_result"
+              ]
+            },
+            {
+              "id": "verify_record",
+              "kind": "verify_record",
+              "mode": "record",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "check_result"
+              ]
+            },
+            {
+              "id": "finish",
+              "kind": "finish",
+              "mode": "deterministic",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "commit"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "from": "intake",
+              "to": "scope"
+            },
+            {
+              "from": "scope",
+              "to": "context_resolve"
+            },
+            {
+              "from": "context_resolve",
+              "to": "work_unit"
+            },
+            {
+              "from": "work_unit",
+              "to": "deterministic_check"
+            },
+            {
+              "from": "deterministic_check",
+              "to": "verify_record"
+            },
+            {
+              "from": "verify_record",
+              "to": "finish"
+            }
+          ],
+          "requiredEvidence": [
+            {
+              "id": "quality.failure",
+              "kind": "check_result",
+              "required": true,
+              "producedBy": "deterministic_check",
+              "description": "Original failing command, hosted check, or accepted reproduction note."
+            },
+            {
+              "id": "quality.fix",
+              "kind": "changed_paths",
+              "required": true,
+              "producedBy": "work_unit",
+              "description": "Changed paths that address the regression."
+            },
+            {
+              "id": "quality.proof",
+              "kind": "check_result",
+              "required": true,
+              "producedBy": "deterministic_check",
+              "description": "Focused regression proof plus broader quality gate when practical."
+            },
+            {
+              "id": "quality.commit",
+              "kind": "commit",
+              "required": true,
+              "producedBy": "finish",
+              "description": "Traceable close commit or integration commit."
+            }
+          ],
+          "stopRules": [
+            {
+              "id": "failure_not_reproduced",
+              "severity": "warn",
+              "reason": "The original failure was not reproduced; verification must state residual uncertainty."
+            },
+            {
+              "id": "quality_gate_skipped",
+              "severity": "approval_required",
+              "reason": "A required quality gate was skipped or replaced."
+            }
+          ]
         }
-      ],
+      },
       "policy": [
         "policy/quality-regression.md"
       ],
@@ -457,7 +453,7 @@
         "testing",
         "coverage"
       ],
-      "source_path": "recipes/quality-regression/recipe.json"
+      "source_path": "blueprints/quality-regression/blueprint.json"
     },
     {
       "schema_version": 1,
@@ -469,215 +465,213 @@
         "min_version": "0.5.0-rc.1",
         "blueprint_schema_version": 1
       },
-      "blueprints": [
-        {
+      "definition": {
+        "id": "runner.execution",
+        "path": "blueprints/runner.execution.json",
+        "content": {
           "id": "runner.execution",
-          "path": "blueprints/runner.execution.json",
-          "definition": {
-            "id": "runner.execution",
-            "version": 1,
-            "title": "Runner execution",
-            "description": "Route for work on runner bundles, adapters, execution state, traces, replay, resume, and result manifests.",
-            "taskKinds": [
-              "code"
-            ],
-            "workflowModes": [
-              "direct",
-              "branch_pr"
-            ],
-            "allowedCommands": [
-              "agentplane task verify-show <task-id>",
-              "runner dry-run",
-              "runner focused tests",
-              "trace or replay inspection",
-              "agentplane verify <task-id> --ok|--rework"
-            ],
-            "policyModules": [
-              ".agentplane/policy/security.must.md",
-              ".agentplane/policy/dod.core.md",
-              ".agentplane/policy/dod.code.md"
-            ],
-            "contextBudget": {
-              "maxPolicyModules": 3,
-              "maxPromptBlocks": 14,
-              "rationale": "Runner work needs execution artifact context and strict policy-module bounds."
+          "version": 1,
+          "title": "Runner execution",
+          "description": "Route for work on runner bundles, adapters, execution state, traces, replay, resume, and result manifests.",
+          "taskKinds": [
+            "code"
+          ],
+          "workflowModes": [
+            "direct",
+            "branch_pr"
+          ],
+          "allowedCommands": [
+            "agentplane task verify-show <task-id>",
+            "runner dry-run",
+            "runner focused tests",
+            "trace or replay inspection",
+            "agentplane verify <task-id> --ok|--rework"
+          ],
+          "policyModules": [
+            ".agentplane/policy/security.must.md",
+            ".agentplane/policy/dod.core.md",
+            ".agentplane/policy/dod.code.md"
+          ],
+          "contextBudget": {
+            "maxPolicyModules": 3,
+            "maxPromptBlocks": 14,
+            "rationale": "Runner work needs execution artifact context and strict policy-module bounds."
+          },
+          "nodes": [
+            {
+              "id": "intake",
+              "kind": "intake",
+              "mode": "deterministic",
+              "required": true
             },
-            "nodes": [
-              {
-                "id": "intake",
-                "kind": "intake",
-                "mode": "deterministic",
-                "required": true
-              },
-              {
-                "id": "scope",
-                "kind": "scope",
-                "mode": "deterministic",
-                "required": true,
-                "evidence": [
-                  "assumptions"
-                ]
-              },
-              {
-                "id": "approval_gate",
-                "kind": "approval_gate",
-                "mode": "approval",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "approval"
-                ]
-              },
-              {
-                "id": "context_resolve",
-                "kind": "context_resolve",
-                "mode": "deterministic",
-                "required": true,
-                "policyModules": [
-                  ".agentplane/policy/security.must.md",
-                  ".agentplane/policy/dod.core.md",
-                  ".agentplane/policy/dod.code.md"
-                ],
-                "evidence": [
-                  "context_manifest",
-                  "sources"
-                ]
-              },
-              {
-                "id": "work_unit",
-                "kind": "work_unit",
-                "mode": "agentic",
-                "required": true,
-                "evidence": [
-                  "changed_paths",
-                  "artifact"
-                ]
-              },
-              {
-                "id": "deterministic_check",
-                "kind": "deterministic_check",
-                "mode": "deterministic",
-                "required": true,
-                "allowedCommands": [
-                  "runner dry-run",
-                  "runner focused tests",
-                  "trace or replay inspection"
-                ],
-                "evidence": [
-                  "check_result",
-                  "artifact"
-                ]
-              },
-              {
-                "id": "artifact_write",
-                "kind": "artifact_write",
-                "mode": "deterministic",
-                "required": true,
-                "evidence": [
-                  "artifact"
-                ]
-              },
-              {
-                "id": "verify_record",
-                "kind": "verify_record",
-                "mode": "record",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "check_result",
-                  "artifact"
-                ]
-              },
-              {
-                "id": "finish",
-                "kind": "finish",
-                "mode": "deterministic",
-                "required": true,
-                "protected": true,
-                "evidence": [
-                  "commit"
-                ]
-              }
-            ],
-            "edges": [
-              {
-                "from": "intake",
-                "to": "scope"
-              },
-              {
-                "from": "scope",
-                "to": "approval_gate"
-              },
-              {
-                "from": "approval_gate",
-                "to": "context_resolve"
-              },
-              {
-                "from": "context_resolve",
-                "to": "work_unit"
-              },
-              {
-                "from": "work_unit",
-                "to": "deterministic_check"
-              },
-              {
-                "from": "deterministic_check",
-                "to": "artifact_write"
-              },
-              {
-                "from": "artifact_write",
-                "to": "verify_record"
-              },
-              {
-                "from": "verify_record",
-                "to": "finish"
-              }
-            ],
-            "requiredEvidence": [
-              {
-                "id": "runner.bundle",
-                "kind": "artifact",
-                "required": true,
-                "producedBy": "work_unit",
-                "description": "Runner bundle, bootstrap, invocation, or adapter contract affected by the change."
-              },
-              {
-                "id": "runner.trace",
-                "kind": "artifact",
-                "required": true,
-                "producedBy": "deterministic_check",
-                "description": "Trace, replay, resume, or execution-state evidence."
-              },
-              {
-                "id": "runner.result",
-                "kind": "check_result",
-                "required": true,
-                "producedBy": "deterministic_check",
-                "description": "Result-manifest, dry-run, or focused runner test evidence."
-              },
-              {
-                "id": "runner.commit",
-                "kind": "commit",
-                "required": true,
-                "producedBy": "finish",
-                "description": "Traceable close commit or integration commit."
-              }
-            ],
-            "stopRules": [
-              {
-                "id": "runner_artifact_missing",
-                "severity": "stop",
-                "reason": "Runner behavior changed without bundle, trace, or result-manifest evidence."
-              },
-              {
-                "id": "adapter_capability_unclear",
-                "severity": "approval_required",
-                "reason": "Adapter capability or sandbox boundary changed without explicit approval."
-              }
-            ]
-          }
+            {
+              "id": "scope",
+              "kind": "scope",
+              "mode": "deterministic",
+              "required": true,
+              "evidence": [
+                "assumptions"
+              ]
+            },
+            {
+              "id": "approval_gate",
+              "kind": "approval_gate",
+              "mode": "approval",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "approval"
+              ]
+            },
+            {
+              "id": "context_resolve",
+              "kind": "context_resolve",
+              "mode": "deterministic",
+              "required": true,
+              "policyModules": [
+                ".agentplane/policy/security.must.md",
+                ".agentplane/policy/dod.core.md",
+                ".agentplane/policy/dod.code.md"
+              ],
+              "evidence": [
+                "context_manifest",
+                "sources"
+              ]
+            },
+            {
+              "id": "work_unit",
+              "kind": "work_unit",
+              "mode": "agentic",
+              "required": true,
+              "evidence": [
+                "changed_paths",
+                "artifact"
+              ]
+            },
+            {
+              "id": "deterministic_check",
+              "kind": "deterministic_check",
+              "mode": "deterministic",
+              "required": true,
+              "allowedCommands": [
+                "runner dry-run",
+                "runner focused tests",
+                "trace or replay inspection"
+              ],
+              "evidence": [
+                "check_result",
+                "artifact"
+              ]
+            },
+            {
+              "id": "artifact_write",
+              "kind": "artifact_write",
+              "mode": "deterministic",
+              "required": true,
+              "evidence": [
+                "artifact"
+              ]
+            },
+            {
+              "id": "verify_record",
+              "kind": "verify_record",
+              "mode": "record",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "check_result",
+                "artifact"
+              ]
+            },
+            {
+              "id": "finish",
+              "kind": "finish",
+              "mode": "deterministic",
+              "required": true,
+              "protected": true,
+              "evidence": [
+                "commit"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "from": "intake",
+              "to": "scope"
+            },
+            {
+              "from": "scope",
+              "to": "approval_gate"
+            },
+            {
+              "from": "approval_gate",
+              "to": "context_resolve"
+            },
+            {
+              "from": "context_resolve",
+              "to": "work_unit"
+            },
+            {
+              "from": "work_unit",
+              "to": "deterministic_check"
+            },
+            {
+              "from": "deterministic_check",
+              "to": "artifact_write"
+            },
+            {
+              "from": "artifact_write",
+              "to": "verify_record"
+            },
+            {
+              "from": "verify_record",
+              "to": "finish"
+            }
+          ],
+          "requiredEvidence": [
+            {
+              "id": "runner.bundle",
+              "kind": "artifact",
+              "required": true,
+              "producedBy": "work_unit",
+              "description": "Runner bundle, bootstrap, invocation, or adapter contract affected by the change."
+            },
+            {
+              "id": "runner.trace",
+              "kind": "artifact",
+              "required": true,
+              "producedBy": "deterministic_check",
+              "description": "Trace, replay, resume, or execution-state evidence."
+            },
+            {
+              "id": "runner.result",
+              "kind": "check_result",
+              "required": true,
+              "producedBy": "deterministic_check",
+              "description": "Result-manifest, dry-run, or focused runner test evidence."
+            },
+            {
+              "id": "runner.commit",
+              "kind": "commit",
+              "required": true,
+              "producedBy": "finish",
+              "description": "Traceable close commit or integration commit."
+            }
+          ],
+          "stopRules": [
+            {
+              "id": "runner_artifact_missing",
+              "severity": "stop",
+              "reason": "Runner behavior changed without bundle, trace, or result-manifest evidence."
+            },
+            {
+              "id": "adapter_capability_unclear",
+              "severity": "approval_required",
+              "reason": "Adapter capability or sandbox boundary changed without explicit approval."
+            }
+          ]
         }
-      ],
+      },
       "policy": [
         "policy/runner-execution.md"
       ],
@@ -696,7 +690,7 @@
         "trace",
         "replay"
       ],
-      "source_path": "recipes/runner-execution/recipe.json"
+      "source_path": "blueprints/runner-execution/blueprint.json"
     }
   ],
   "packs": [
@@ -705,8 +699,8 @@
       "id": "enterprise-baseline",
       "name": "Enterprise Baseline",
       "version": "0.1.0",
-      "summary": "Lightweight pack that installs benchmark, regression, and runner execution blueprint recipes together.",
-      "recipes": [
+      "summary": "Lightweight pack that installs benchmark, regression, and runner execution blueprints together.",
+      "blueprints": [
         {
           "id": "performance-benchmark",
           "version": "0.1.0",

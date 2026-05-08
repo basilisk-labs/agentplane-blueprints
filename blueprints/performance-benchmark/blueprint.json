@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "performance-benchmark",
+  "name": "Performance Benchmark",
+  "version": "0.1.0",
+  "summary": "Blueprint route for tasks that must prove a performance baseline, comparison, and regression threshold.",
+  "agentplane": {
+    "min_version": "0.5.0-rc.1",
+    "blueprint_schema_version": 1
+  },
+  "definition": {
+    "id": "performance.benchmark",
+    "path": "blueprints/performance.benchmark.json"
+  },
+  "policy": ["policy/performance-benchmark.md"],
+  "evidence_templates": ["evidence-templates/performance-benchmark.md"],
+  "activation": {
+    "mode": "explicit_only",
+    "recommended_allowed_ids": ["performance.benchmark"]
+  },
+  "tags": ["performance", "benchmark", "regression"]
+}

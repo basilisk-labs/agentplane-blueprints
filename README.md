@@ -1,6 +1,6 @@
 # AgentPlane Blueprints
 
-Installable blueprint recipes and lightweight packs for AgentPlane.
+Installable blueprints and lightweight packs for AgentPlane.
 
 This repository is a catalog source, not the AgentPlane core runtime. Core AgentPlane should keep
 the seven built-in blueprints small and stable. This repository is where organization-specific
@@ -8,11 +8,11 @@ routes can live without bloating the core product.
 
 ## Concept
 
-- A blueprint recipe is an installable unit that provides one or more project-local blueprint
-  definitions plus optional policy notes, evidence templates, and activation guidance.
-- A pack is only a lightweight wrapper: it names a coherent set of blueprint recipes that should be
+- A catalog blueprint is an installable unit that provides exactly one AgentPlane blueprint
+  definition plus optional policy notes, evidence templates, and activation guidance.
+- A pack is only a lightweight wrapper: it names a coherent set of blueprints that should be
   installed together.
-- Installation and activation are separate. Installing copies recipes into the local cache or
+- Installation and activation are separate. Installing copies blueprints into the local cache or
   project. Activation explicitly allows selected blueprint ids in the project trust config.
 - Basic AgentPlane initialization should use the built-in seven blueprints. Blueprint catalog
   selection belongs in advanced initialization or explicit post-init setup.
@@ -21,9 +21,9 @@ routes can live without bloating the core product.
 
 ```text
 catalog/index.json          public catalog metadata
-recipes/<id>/recipe.json    atomic installable blueprint recipe
-recipes/<id>/blueprints/    AgentPlane project-local blueprint JSON files
-packs/<id>/pack.json        lightweight recipe bundle wrapper
+blueprints/<id>/blueprint.json       atomic installable blueprint manifest
+blueprints/<id>/blueprints/*.json    AgentPlane project-local blueprint definition
+packs/<id>/pack.json                 lightweight blueprint collection wrapper
 schemas/                    JSON schemas for catalog consumers
 scripts/                    dependency-free validation and build scripts
 dist/index.json             generated catalog index
@@ -46,9 +46,9 @@ checkout and by release automation before publication.
 The intended AgentPlane integration is:
 
 1. Sync this catalog index into an AgentPlane user cache.
-2. During advanced `agentplane init`, offer blueprint recipes or packs after the built-in route
+2. During advanced `agentplane init`, offer blueprints or packs after the built-in route
    explanation.
-3. Install selected recipes into the project.
+3. Install selected blueprints into the project.
 4. Write or update `.agentplane/blueprints/config.json` with explicit allowlist activation only for
    selected blueprint ids.
 5. Keep base mode unchanged: if no advanced selection is made, the project uses the built-in seven
@@ -59,7 +59,7 @@ The intended AgentPlane integration is:
 - `performance-benchmark`: benchmark route for baseline/comparison work.
 - `quality-regression`: regression route for CI, lint, test, and coverage failures.
 - `runner-execution`: runner route for bundle, trace, replay, and result-manifest work.
-- `enterprise-baseline`: pack that installs the three recipes above together.
+- `enterprise-baseline`: pack that installs the three blueprints above together.
 
 ## Non-goals
 
