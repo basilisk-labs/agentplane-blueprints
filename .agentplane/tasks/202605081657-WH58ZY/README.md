@@ -1,10 +1,11 @@
 ---
 id: "202605081657-WH58ZY"
 title: "Clarify single blueprint install target"
-status: "DOING"
+result_summary: "Clarified README and docs install/development/architecture/concept model for individual blueprint installs plus pack installs; verified catalog checks, routing, doctor, and diff sanity."
+status: "DONE"
 priority: "med"
 owner: "DOCS"
-revision: 5
+revision: 6
 origin:
   system: "manual"
 depends_on: []
@@ -21,11 +22,16 @@ verification:
   updated_at: "2026-05-08T16:59:04.752Z"
   updated_by: "DOCS"
   note: "Docs verification passed for explicit individual blueprint and pack install target clarification."
-commit: null
+commit:
+  hash: "2cac12bc796828eecbcc7a0d331cf22faff64366"
+  message: "📝 WH58ZY docs: clarify blueprint install targets"
 comments:
   -
     author: "DOCS"
     body: "Start: Clarifying the blueprint catalog installation contract so individual blueprints and packs are both first-class install targets while preserving explicit activation and docs-only scope."
+  -
+    author: "DOCS"
+    body: "Verified: Documentation now explicitly treats individual blueprints and packs as separate first-class install targets, with pack install expanding into ordinary blueprint installs."
 events:
   -
     type: "status"
@@ -40,8 +46,15 @@ events:
     author: "DOCS"
     state: "ok"
     note: "Docs verification passed for explicit individual blueprint and pack install target clarification."
+  -
+    type: "status"
+    at: "2026-05-08T16:59:23.826Z"
+    author: "DOCS"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: Documentation now explicitly treats individual blueprints and packs as separate first-class install targets, with pack install expanding into ordinary blueprint installs."
 doc_version: 3
-doc_updated_at: "2026-05-08T16:59:04.774Z"
+doc_updated_at: "2026-05-08T16:59:23.830Z"
 doc_updated_by: "DOCS"
 description: "Document that the blueprint catalog installer supports both individual blueprint installation and pack installation, with packs expanding to multiple blueprint installs."
 sections:
