@@ -8,8 +8,14 @@ audience:
   - coding agents
   - repository maintainers
 purpose: Explain how to turn finished coding work into approval-gated X/Twitter status drafts.
+editorial_paths:
+  preferred: marketing/EDITORIAL.md
+  fallback:
+    - marketing/docs/editorial/EDITORIAL.md
 required_project_files:
-  - marketing/EDITORIAL.md
+  any_of:
+    - marketing/EDITORIAL.md
+    - marketing/docs/editorial/EDITORIAL.md
 recommended_project_files:
   - marketing/VOICE.md
   - marketing/launch/twitter.md
@@ -62,13 +68,69 @@ marketing/VOICE.md
 marketing/launch/twitter.md
 ```
 
-Minimum required file:
+Minimum required editorial source:
 
 ```text
 marketing/EDITORIAL.md
 ```
 
-If `marketing/EDITORIAL.md` is missing, stale, or ambiguous, stay in draft-only mode. Do not publish.
+If the project keeps marketing docs in a nested documentation tree, this fallback is also valid:
+
+```text
+marketing/docs/editorial/EDITORIAL.md
+```
+
+Resolution order:
+
+1. Use `marketing/EDITORIAL.md` when present.
+2. Otherwise use `marketing/docs/editorial/EDITORIAL.md`.
+3. If neither file exists, or the available file is stale or ambiguous, stay in draft-only mode. Do not publish.
+
+## X API setup
+
+Publishing requires a project-approved publisher adapter. Do not store X credentials in Git, task artifacts, blueprint files, or marketing docs. Store them in a local secret manager, CI secret store, or an untracked environment file loaded only by the publisher adapter.
+
+For a minimal own-account publisher using the X API, create or open an App in the X Developer Portal and collect:
+
+```text
+X_API_KEY
+X_API_KEY_SECRET
+X_ACCESS_TOKEN
+X_ACCESS_TOKEN_SECRET
+```
+
+These four values are for OAuth 1.0a User Context and let the adapter post as the account represented by the access token. The App must have write permission for posting.
+
+If the project uses OAuth 2.0 instead, collect:
+
+```text
+X_CLIENT_ID
+X_CLIENT_SECRET
+X_REDIRECT_URI
+X_OAUTH2_REFRESH_TOKEN
+```
+
+The OAuth 2.0 token must include scopes that allow posting, typically `tweet.write`, plus the read/user scopes required by the chosen client library.
+
+Recommended local convention:
+
+```text
+.env.local
+```
+
+Recommended ignored entries:
+
+```text
+.env
+.env.local
+.env.*.local
+```
+
+Publishing remains blocked until:
+
+1. the exact post text is approved by a human;
+2. credentials are available to the publisher adapter outside Git;
+3. the adapter records either the X permalink or a failure reason in the task social artifact.
 
 ## Draft flow
 
