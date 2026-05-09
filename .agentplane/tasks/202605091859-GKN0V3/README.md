@@ -1,10 +1,11 @@
 ---
 id: "202605091859-GKN0V3"
 title: "Package blueprint catalog releases"
-status: "DOING"
+result_summary: "Added recipes-like blueprint release packaging: publication allowlist, generated package tarballs, release index, optional Ed25519 signature helper, schemas, README updates, and package-aware validation."
+status: "DONE"
 priority: "high"
 owner: "CODER"
-revision: 5
+revision: 6
 origin:
   system: "manual"
 depends_on: []
@@ -22,11 +23,16 @@ verification:
   updated_by: "CODER"
   note: "Blueprint release packaging layer verified."
   attempts: 0
-commit: null
+commit:
+  hash: "72b6d92e6f2e1b59bb0385bd14b316478451c690"
+  message: "Package blueprint catalog releases [202605091859-GKN0V3]"
 comments:
   -
     author: "CODER"
     body: "Start: implementing the approved recipes-like package distribution layer for external blueprints, including generated tarballs, sha256 package metadata, optional signing support, and updated catalog checks."
+  -
+    author: "CODER"
+    body: "Verified: blueprint release packaging now generates versioned tarball packages, SHA-256 release index metadata, optional signing support, and package checks passed."
 events:
   -
     type: "status"
@@ -41,8 +47,15 @@ events:
     author: "CODER"
     state: "ok"
     note: "Blueprint release packaging layer verified."
+  -
+    type: "status"
+    at: "2026-05-09T19:03:28.932Z"
+    author: "CODER"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: blueprint release packaging now generates versioned tarball packages, SHA-256 release index metadata, optional signing support, and package checks passed."
 doc_version: 3
-doc_updated_at: "2026-05-09T19:03:10.265Z"
+doc_updated_at: "2026-05-09T19:03:28.935Z"
 doc_updated_by: "CODER"
 description: "Move the blueprint catalog toward a recipes-like distribution contract: publication allowlist, versioned tarball packages with sha256, generated remote index, and build/check coverage while preserving source catalog compatibility."
 sections:
