@@ -36,7 +36,7 @@
             "status"
           ],
           "url": "https://raw.githubusercontent.com/basilisk-labs/agentplane-blueprints/main/dist/coding-twitter-0.1.0.tar.gz",
-          "sha256": "57c4543ce03584a839514c415b416fd13b9773dd5b0eef50dd136b4947051b99"
+          "sha256": "0377100d7bca2bac383196dac28bf5d0104c87f402a636c98592dc91ad4ce93f"
         }
       ]
     },
@@ -65,7 +65,7 @@
             "regression"
           ],
           "url": "https://raw.githubusercontent.com/basilisk-labs/agentplane-blueprints/main/dist/performance-benchmark-0.1.0.tar.gz",
-          "sha256": "8cb1f1739e3c26d48350ed13354fb0b1109d7d9b6db5cf342ebdb9bc3a991df2"
+          "sha256": "b8b78d3d8e37f5ad8ba84081449633c7fef49fd0aaa71bab53adbe7c418b1f70"
         }
       ]
     },
@@ -96,7 +96,7 @@
             "coverage"
           ],
           "url": "https://raw.githubusercontent.com/basilisk-labs/agentplane-blueprints/main/dist/quality-regression-0.1.0.tar.gz",
-          "sha256": "f7fc0f2944f0ef27ab167b66c4df5a41811dc2738a75e3556164f1ba3ec38c7c"
+          "sha256": "c70aba1174254ad5773043768e02d5156c7050d32871b0578a18f108cdd06a40"
         }
       ]
     },
@@ -127,7 +127,7 @@
             "replay"
           ],
           "url": "https://raw.githubusercontent.com/basilisk-labs/agentplane-blueprints/main/dist/runner-execution-0.1.0.tar.gz",
-          "sha256": "1c128a8b2bc5dfcd434e32f34de616a31bef34423aec456f2eddfd8f9d30f2b4"
+          "sha256": "98fa0ee58824dcfd74952c1476f0a7a7f9a0c7880f1048f8f7ff13ec9faba93e"
         }
       ]
     }

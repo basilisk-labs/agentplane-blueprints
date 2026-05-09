@@ -86,11 +86,13 @@ async function validateBlueprintDefinition(catalogEntry, definitionEntry, errors
 
   const nodeIds = new Set();
   const nodeKinds = new Set();
+  const producerEvidence = new Map();
   for (const [indexNumber, node] of (definition.nodes ?? []).entries()) {
     assertString(node.id, `${blueprintPath}.nodes[${indexNumber}].id`, errors);
     assert(NODE_KINDS.has(node.kind), `${blueprintPath}.nodes[${indexNumber}] has unknown kind ${node.kind}`, errors);
     nodeIds.add(node.id);
     nodeKinds.add(node.kind);
+    producerEvidence.set(node.id, new Set(Array.isArray(node.evidence) ? node.evidence : []));
   }
   for (const requiredKind of ["intake", "scope", "context_resolve", "work_unit", "verify_record", "finish"]) {
     assert(nodeKinds.has(requiredKind), `${blueprintPath} missing required node kind ${requiredKind}`, errors);
@@ -101,7 +103,12 @@ async function validateBlueprintDefinition(catalogEntry, definitionEntry, errors
   }
   for (const [indexNumber, evidence] of (definition.requiredEvidence ?? []).entries()) {
     assertString(evidence.id, `${blueprintPath}.requiredEvidence[${indexNumber}].id`, errors);
-    assert(nodeKinds.has(evidence.producedBy), `${blueprintPath}.requiredEvidence[${indexNumber}].producedBy references inactive node kind`, errors);
+    assert(nodeIds.has(evidence.producedBy), `${blueprintPath}.requiredEvidence[${indexNumber}].producedBy references unknown node`, errors);
+    assert(
+      producerEvidence.get(evidence.producedBy)?.has(evidence.kind),
+      `${blueprintPath}.requiredEvidence[${indexNumber}] requires ${evidence.kind} from ${evidence.producedBy}, but the node does not produce it`,
+      errors,
+    );
   }
 }
 

@@ -187,12 +187,12 @@
       "id": "coding.twitter.source_work",
       "kind": "artifact",
       "required": true,
-      "producedBy": "work_unit",
+      "producedBy": "evidence_review",
       "description": "Task README, ACR, PR, or commit evidence proving what finished and whether it is merged, released, or local-only."
     },
     {
       "id": "coding.twitter.editorial_policy",
-      "kind": "artifact",
+      "kind": "sources",
       "required": true,
       "producedBy": "context_resolve",
       "description": "Marketing/editorial source, preferably from a project marketing submodule. If missing, the route must stay draft-only."
@@ -201,14 +201,14 @@
       "id": "coding.twitter.public_value_score",
       "kind": "check_result",
       "required": true,
-      "producedBy": "deterministic_check",
+      "producedBy": "tweetworthiness_check",
       "description": "Decision record explaining whether the completed work is worth a public status post."
     },
     {
       "id": "coding.twitter.draft",
       "kind": "artifact",
       "required": true,
-      "producedBy": "artifact_write",
+      "producedBy": "draft_write",
       "description": "X/Twitter draft variants plus source evidence, claim limits, and residual risk."
     },
     {
@@ -222,7 +222,7 @@
       "id": "coding.twitter.publish_result",
       "kind": "check_result",
       "required": true,
-      "producedBy": "deterministic_check",
+      "producedBy": "publish_check",
       "description": "Draft-only decision, manual post permalink, or approved publisher result."
     },
     {
