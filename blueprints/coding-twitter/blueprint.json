@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "coding-twitter",
   "name": "Coding Twitter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "Blueprint route for turning finished coding work into approval-gated X/Twitter status drafts using project marketing/editorial materials.",
   "agentplane": {
     "min_version": "0.5.0-rc.1",
@@ -12,11 +12,24 @@
     "id": "coding.twitter",
     "path": "blueprints/coding.twitter.json"
   },
-  "policy": ["policy/coding-twitter.md"],
-  "evidence_templates": ["evidence-templates/coding-twitter.md"],
+  "policy": [
+    "policy/coding-twitter.md"
+  ],
+  "evidence_templates": [
+    "evidence-templates/coding-twitter.md"
+  ],
   "activation": {
     "mode": "explicit_only",
-    "recommended_allowed_ids": ["coding.twitter"]
+    "recommended_allowed_ids": [
+      "coding.twitter"
+    ]
   },
-  "tags": ["coding", "marketing", "twitter", "x", "social", "status"]
+  "tags": [
+    "coding",
+    "marketing",
+    "twitter",
+    "x",
+    "social",
+    "status"
+  ]
 }
