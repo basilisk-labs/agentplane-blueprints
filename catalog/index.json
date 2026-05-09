@@ -5,6 +5,10 @@
   "description": "Installable blueprints and lightweight packs for advanced AgentPlane projects.",
   "blueprints": [
     {
+      "id": "coding-twitter",
+      "path": "blueprints/coding-twitter/blueprint.json"
+    },
+    {
       "id": "performance-benchmark",
       "path": "blueprints/performance-benchmark/blueprint.json"
     },

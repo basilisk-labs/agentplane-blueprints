@@ -17,3 +17,4 @@ AGENTS.md.bak-*
 CLAUDE.md.bak-*
 .agentplane/agents/*.bak-*
 .agentplane/policy/**/*.bak-*
+.DS_Store

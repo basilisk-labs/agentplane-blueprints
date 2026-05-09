@@ -1,0 +1,320 @@
+{
+  "schemaVersion": 1,
+  "artifactKind": "agentplane.blueprint.resolved_snapshot",
+  "resolverInput": {
+    "taskId": "202605091602-3JPQB1",
+    "title": "Add coding Twitter blueprint",
+    "description": "Publish a reusable coding-twitter blueprint that analyzes finished coding work, drafts status tweets using marketing/editorial materials, and keeps publishing approval-gated.",
+    "tags": [
+      "data"
+    ],
+    "owner": "CODER",
+    "workflowMode": "direct",
+    "mutation": "none",
+    "touchedPaths": [],
+    "recipeHints": [],
+    "riskFlags": []
+  },
+  "selectedBlueprint": {
+    "id": "content.light",
+    "version": 1,
+    "title": "Lightweight content",
+    "taskKinds": [
+      "content"
+    ],
+    "workflowModes": []
+  },
+  "plan": {
+    "schemaVersion": 1,
+    "blueprintId": "content.light",
+    "blueprintVersion": 1,
+    "title": "Lightweight content",
+    "taskId": "202605091602-3JPQB1",
+    "workflowMode": "direct",
+    "taskIntent": {
+      "mutationScope": "none"
+    },
+    "whySelected": [
+      "task kind resolved to content",
+      "workflow mode: direct",
+      "mutation scope: none"
+    ],
+    "states": [
+      {
+        "id": "intake",
+        "kind": "intake",
+        "mode": "deterministic",
+        "required": true,
+        "protected": false,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": []
+      },
+      {
+        "id": "scope",
+        "kind": "scope",
+        "mode": "deterministic",
+        "required": true,
+        "protected": false,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": [
+          "assumptions"
+        ]
+      },
+      {
+        "id": "context_resolve",
+        "kind": "context_resolve",
+        "mode": "deterministic",
+        "required": true,
+        "protected": false,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": [
+          "context_manifest",
+          "sources"
+        ]
+      },
+      {
+        "id": "work_unit",
+        "kind": "work_unit",
+        "mode": "agentic",
+        "required": true,
+        "protected": false,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": [
+          "artifact",
+          "final_output"
+        ]
+      },
+      {
+        "id": "deterministic_check",
+        "kind": "deterministic_check",
+        "mode": "deterministic",
+        "required": true,
+        "protected": false,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": [
+          "check_result"
+        ]
+      },
+      {
+        "id": "artifact_write",
+        "kind": "artifact_write",
+        "mode": "deterministic",
+        "required": true,
+        "protected": false,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": [
+          "artifact"
+        ]
+      },
+      {
+        "id": "verify_record",
+        "kind": "verify_record",
+        "mode": "record",
+        "required": true,
+        "protected": true,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": [
+          "final_output"
+        ]
+      },
+      {
+        "id": "finish",
+        "kind": "finish",
+        "mode": "deterministic",
+        "required": true,
+        "protected": true,
+        "allowedCommands": [],
+        "policyModules": [],
+        "evidenceKinds": [
+          "final_output"
+        ]
+      }
+    ],
+    "requiredEvidence": [
+      {
+        "id": "content.sources",
+        "kind": "sources",
+        "producedBy": "context_resolve",
+        "required": true,
+        "description": "Source or product facts used."
+      },
+      {
+        "id": "content.check",
+        "kind": "check_result",
+        "producedBy": "deterministic_check",
+        "required": true,
+        "description": "Style or editorial check."
+      },
+      {
+        "id": "content.final",
+        "kind": "final_output",
+        "producedBy": "work_unit",
+        "required": true,
+        "description": "Final content artifact."
+      }
+    ],
+    "policyModules": [],
+    "allowedCommands": [
+      "editorial or formatting checks"
+    ],
+    "contextBudget": {
+      "maxPolicyModules": 0,
+      "maxPromptBlocks": 8,
+      "rationale": "Content work should favor source material and recipe context over workflow policy."
+    },
+    "contextManifest": [],
+    "acceptedRecipeExtensions": [],
+    "rejectedRecipeExtensions": [],
+    "stopReasons": []
+  },
+  "nodes": [
+    {
+      "id": "intake",
+      "kind": "intake",
+      "mode": "deterministic",
+      "required": true,
+      "protected": false,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": []
+    },
+    {
+      "id": "scope",
+      "kind": "scope",
+      "mode": "deterministic",
+      "required": true,
+      "protected": false,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": [
+        "assumptions"
+      ]
+    },
+    {
+      "id": "context_resolve",
+      "kind": "context_resolve",
+      "mode": "deterministic",
+      "required": true,
+      "protected": false,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": [
+        "context_manifest",
+        "sources"
+      ]
+    },
+    {
+      "id": "work_unit",
+      "kind": "work_unit",
+      "mode": "agentic",
+      "required": true,
+      "protected": false,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": [
+        "artifact",
+        "final_output"
+      ]
+    },
+    {
+      "id": "deterministic_check",
+      "kind": "deterministic_check",
+      "mode": "deterministic",
+      "required": true,
+      "protected": false,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": [
+        "check_result"
+      ]
+    },
+    {
+      "id": "artifact_write",
+      "kind": "artifact_write",
+      "mode": "deterministic",
+      "required": true,
+      "protected": false,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": [
+        "artifact"
+      ]
+    },
+    {
+      "id": "verify_record",
+      "kind": "verify_record",
+      "mode": "record",
+      "required": true,
+      "protected": true,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": [
+        "final_output"
+      ]
+    },
+    {
+      "id": "finish",
+      "kind": "finish",
+      "mode": "deterministic",
+      "required": true,
+      "protected": true,
+      "allowedCommands": [],
+      "policyModules": [],
+      "evidenceKinds": [
+        "final_output"
+      ]
+    }
+  ],
+  "requiredEvidence": [
+    {
+      "id": "content.sources",
+      "kind": "sources",
+      "producedBy": "context_resolve",
+      "required": true,
+      "description": "Source or product facts used."
+    },
+    {
+      "id": "content.check",
+      "kind": "check_result",
+      "producedBy": "deterministic_check",
+      "required": true,
+      "description": "Style or editorial check."
+    },
+    {
+      "id": "content.final",
+      "kind": "final_output",
+      "producedBy": "work_unit",
+      "required": true,
+      "description": "Final content artifact."
+    }
+  ],
+  "policyModules": [],
+  "allowedCommands": [
+    "editorial or formatting checks"
+  ],
+  "contextBudget": {
+    "maxPolicyModules": 0,
+    "maxPromptBlocks": 8,
+    "rationale": "Content work should favor source material and recipe context over workflow policy."
+  },
+  "contextManifest": [],
+  "acceptedRecipeExtensions": [],
+  "rejectedRecipeExtensions": [],
+  "stopReasons": [],
+  "selectionReasons": [
+    "task kind resolved to content",
+    "workflow mode: direct",
+    "mutation scope: none"
+  ],
+  "digest": {
+    "algorithm": "sha256",
+    "value": "81a9183579e34218483fe8a2580ce518e530211cabd1fb0e5baccfaf388bea70"
+  }
+}
