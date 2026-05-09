@@ -2,7 +2,7 @@
   "schema_version": 1,
   "id": "coding-twitter",
   "name": "Coding Twitter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "summary": "Blueprint route for turning finished coding work into approval-gated X/Twitter status drafts using project marketing/editorial materials.",
   "agentplane": {
     "min_version": "0.5.0-rc.1",
@@ -31,5 +31,6 @@
     "x",
     "social",
     "status"
-  ]
+  ],
+  "usage": "USAGE.md"
 }
