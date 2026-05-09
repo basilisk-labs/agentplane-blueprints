@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "coding-threads",
+  "name": "Coding Threads",
+  "version": "0.1.0",
+  "summary": "Blueprint route for turning finished coding work into approval-gated Meta Threads status drafts using project marketing/editorial materials.",
+  "agentplane": {
+    "min_version": "0.5.0-rc.1",
+    "blueprint_schema_version": 1
+  },
+  "definition": {
+    "id": "coding.threads",
+    "path": "blueprints/coding.threads.json"
+  },
+  "policy": [
+    "policy/coding-threads.md"
+  ],
+  "evidence_templates": [
+    "evidence-templates/coding-threads.md"
+  ],
+  "activation": {
+    "mode": "explicit_only",
+    "recommended_allowed_ids": [
+      "coding.threads"
+    ]
+  },
+  "tags": [
+    "coding",
+    "marketing",
+    "threads",
+    "meta",
+    "social",
+    "status"
+  ],
+  "usage": "USAGE.md"
+}

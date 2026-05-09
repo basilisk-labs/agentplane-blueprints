@@ -41,6 +41,41 @@
       ]
     },
     {
+      "id": "coding-threads",
+      "name": "Coding Threads",
+      "summary": "Blueprint route for turning finished coding work into approval-gated Meta Threads status drafts using project marketing/editorial materials.",
+      "tags": [
+        "coding",
+        "marketing",
+        "threads",
+        "meta",
+        "social",
+        "status"
+      ],
+      "activation": {
+        "mode": "explicit_only",
+        "recommended_allowed_ids": [
+          "coding.threads"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "min_agentplane_version": "0.5.0-rc.1",
+          "tags": [
+            "coding",
+            "marketing",
+            "threads",
+            "meta",
+            "social",
+            "status"
+          ],
+          "url": "https://raw.githubusercontent.com/basilisk-labs/agentplane-blueprints/main/dist/coding-threads-0.1.0.tar.gz",
+          "sha256": "91577e787cf269dec0b32fbf2d0a76012b60891383fcfd538dd2d9fc2f3b6f5e"
+        }
+      ]
+    },
+    {
       "id": "performance-benchmark",
       "name": "Performance Benchmark",
       "summary": "Blueprint route for tasks that must prove a performance baseline, comparison, and regression threshold.",

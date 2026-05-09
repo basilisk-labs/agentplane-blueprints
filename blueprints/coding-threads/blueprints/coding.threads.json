@@ -1,0 +1,297 @@
+{
+  "id": "coding.threads",
+  "version": 1,
+  "title": "Coding Threads",
+  "description": "Route for analyzing recently finished coding work and producing approval-gated Meta Threads status drafts that follow project marketing and editorial materials.",
+  "taskKinds": [
+    "code"
+  ],
+  "workflowModes": [
+    "direct",
+    "branch_pr"
+  ],
+  "allowedCommands": [
+    "agentplane task verify-show <task-id>",
+    "git show --stat --summary <commit>",
+    "git log --oneline -n <count>",
+    "read project marketing/editorial files",
+    "write .agentplane/tasks/<task-id>/social/threads-draft.md",
+    "agentplane verify <task-id> --ok|--rework",
+    "ap ext list",
+    "ap ext coding-threads draft <task-id>",
+    "ap ext coding-threads publish <task-id>"
+  ],
+  "policyModules": [
+    ".agentplane/policy/security.must.md",
+    ".agentplane/policy/dod.core.md",
+    ".agentplane/policy/dod.docs.md"
+  ],
+  "contextBudget": {
+    "maxPolicyModules": 3,
+    "maxPromptBlocks": 14,
+    "rationale": "The route needs security, task evidence, and editorial context without widening into implementation policy."
+  },
+  "nodes": [
+    {
+      "id": "intake",
+      "kind": "intake",
+      "mode": "deterministic",
+      "required": true
+    },
+    {
+      "id": "scope",
+      "kind": "scope",
+      "mode": "deterministic",
+      "required": true,
+      "evidence": [
+        "assumptions"
+      ]
+    },
+    {
+      "id": "context_resolve",
+      "kind": "context_resolve",
+      "mode": "deterministic",
+      "required": true,
+      "policyModules": [
+        ".agentplane/policy/security.must.md",
+        ".agentplane/policy/dod.core.md",
+        ".agentplane/policy/dod.docs.md"
+      ],
+      "evidence": [
+        "context_manifest",
+        "sources"
+      ]
+    },
+    {
+      "id": "evidence_review",
+      "kind": "work_unit",
+      "mode": "agentic",
+      "required": true,
+      "evidence": [
+        "artifact",
+        "changed_paths"
+      ]
+    },
+    {
+      "id": "tweetworthiness_check",
+      "kind": "deterministic_check",
+      "mode": "deterministic",
+      "required": true,
+      "allowedCommands": [
+        "score public value",
+        "check finish evidence",
+        "check privacy and claim risk"
+      ],
+      "evidence": [
+        "check_result"
+      ]
+    },
+    {
+      "id": "draft_write",
+      "kind": "artifact_write",
+      "mode": "agentic",
+      "required": true,
+      "evidence": [
+        "artifact"
+      ]
+    },
+    {
+      "id": "approval_gate",
+      "kind": "approval_gate",
+      "mode": "approval",
+      "required": true,
+      "protected": true,
+      "evidence": [
+        "approval"
+      ]
+    },
+    {
+      "id": "publish_check",
+      "kind": "deterministic_check",
+      "mode": "deterministic",
+      "required": true,
+      "protected": true,
+      "allowedCommands": [
+        "ap ext list",
+        "ap ext coding-threads draft <task-id>",
+        "ap ext coding-threads publish <task-id>",
+        "record manual Threads permalink",
+        "record draft-only skip"
+      ],
+      "evidence": [
+        "check_result"
+      ]
+    },
+    {
+      "id": "verify_record",
+      "kind": "verify_record",
+      "mode": "record",
+      "required": true,
+      "protected": true,
+      "evidence": [
+        "check_result",
+        "artifact"
+      ]
+    },
+    {
+      "id": "finish",
+      "kind": "finish",
+      "mode": "deterministic",
+      "required": true,
+      "protected": true,
+      "evidence": [
+        "commit"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "intake",
+      "to": "scope"
+    },
+    {
+      "from": "scope",
+      "to": "context_resolve"
+    },
+    {
+      "from": "context_resolve",
+      "to": "evidence_review"
+    },
+    {
+      "from": "evidence_review",
+      "to": "tweetworthiness_check"
+    },
+    {
+      "from": "tweetworthiness_check",
+      "to": "draft_write"
+    },
+    {
+      "from": "draft_write",
+      "to": "approval_gate"
+    },
+    {
+      "from": "approval_gate",
+      "to": "publish_check"
+    },
+    {
+      "from": "publish_check",
+      "to": "verify_record"
+    },
+    {
+      "from": "verify_record",
+      "to": "finish"
+    }
+  ],
+  "requiredEvidence": [
+    {
+      "id": "coding.threads.source_work",
+      "kind": "artifact",
+      "required": true,
+      "producedBy": "evidence_review",
+      "description": "Task README, ACR, PR, or commit evidence proving what finished and whether it is merged, released, or local-only."
+    },
+    {
+      "id": "coding.threads.editorial_policy",
+      "kind": "sources",
+      "required": true,
+      "producedBy": "context_resolve",
+      "description": "Marketing/editorial source, preferably from a project marketing submodule. If missing, the route must stay draft-only."
+    },
+    {
+      "id": "coding.threads.public_value_score",
+      "kind": "check_result",
+      "required": true,
+      "producedBy": "tweetworthiness_check",
+      "description": "Decision record explaining whether the completed work is worth a public status Threads post."
+    },
+    {
+      "id": "coding.threads.draft",
+      "kind": "artifact",
+      "required": true,
+      "producedBy": "draft_write",
+      "description": "Threads draft variants plus source evidence, claim limits, length checks, and residual risk."
+    },
+    {
+      "id": "coding.threads.approval",
+      "kind": "approval",
+      "required": true,
+      "producedBy": "approval_gate",
+      "description": "Human approval for the exact final text before any external publishing side effect."
+    },
+    {
+      "id": "coding.threads.publish_result",
+      "kind": "check_result",
+      "required": true,
+      "producedBy": "publish_check",
+      "description": "Draft-only decision, manual Threads permalink, or approved Threads publisher result."
+    },
+    {
+      "id": "coding.threads.commit",
+      "kind": "commit",
+      "required": true,
+      "producedBy": "finish",
+      "description": "Traceable commit or close state for the social artifact task."
+    }
+  ],
+  "stopRules": [
+    {
+      "id": "editorial_policy_missing",
+      "severity": "approval_required",
+      "reason": "Marketing/editorial materials are missing or stale; generate drafts only and do not publish."
+    },
+    {
+      "id": "finish_state_unverified",
+      "severity": "stop",
+      "reason": "The source coding work is not proven finished, merged, released, or otherwise accurately statused."
+    },
+    {
+      "id": "unsupported_public_claim",
+      "severity": "stop",
+      "reason": "The draft makes product, benchmark, release, customer, security, or adoption claims not supported by task evidence."
+    },
+    {
+      "id": "external_publish_without_approval",
+      "severity": "stop",
+      "reason": "Posting to X/Twitter is an external irreversible side effect and requires explicit approval of the exact text."
+    }
+  ],
+  "recipeExtensionPoints": [
+    {
+      "nodeKind": "context_resolve",
+      "allowed": [
+        "editorial_policy_path",
+        "marketing_submodule_path",
+        "brand_voice_hint"
+      ],
+      "rejected": [
+        "policy_override",
+        "secret_path",
+        "permission_bypass"
+      ]
+    },
+    {
+      "nodeKind": "deterministic_check",
+      "allowed": [
+        "tweetworthiness_threshold",
+        "claim_check",
+        "privacy_check"
+      ],
+      "rejected": [
+        "approval_disable",
+        "unsupported_metric_claim"
+      ]
+    },
+    {
+      "nodeKind": "artifact_write",
+      "allowed": [
+        "draft_template",
+        "thread_template",
+        "single_tweet_limit",
+        "extension_command_namespace"
+      ],
+      "rejected": [
+        "auto_publish_text_mutation"
+      ]
+    }
+  ]
+}

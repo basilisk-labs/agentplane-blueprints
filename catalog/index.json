@@ -9,6 +9,10 @@
       "path": "blueprints/coding-twitter/blueprint.json"
     },
     {
+      "id": "coding-threads",
+      "path": "blueprints/coding-threads/blueprint.json"
+    },
+    {
       "id": "performance-benchmark",
       "path": "blueprints/performance-benchmark/blueprint.json"
     },
