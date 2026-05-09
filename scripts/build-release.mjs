@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { mkdtemp, mkdir, readFile, rm, writeFile, cp } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile, cp, rename } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { execFile } from "node:child_process";
@@ -26,13 +26,23 @@ async function makeArchive(sourceDir, id, version) {
   const tmpRoot = await mkdtemp(path.join(os.tmpdir(), "agentplane-blueprint-package-"));
   const packageRoot = path.join(tmpRoot, id);
   await cp(sourceDir, packageRoot, { recursive: true });
-  await rm(archivePath, { force: true });
+  const nextArchivePath = path.join(tmpRoot, archiveName);
   try {
-    await execFileAsync("tar", ["-czf", archivePath, "-C", tmpRoot, id]);
+    await execFileAsync("tar", ["-czf", nextArchivePath, "-C", tmpRoot, id]);
+    const nextSha = await sha256File(nextArchivePath);
+    let currentSha = "";
+    try {
+      currentSha = await sha256File(archivePath);
+    } catch {
+      currentSha = "";
+    }
+    if (currentSha !== nextSha) {
+      await rename(nextArchivePath, archivePath);
+    }
+    return { archiveName, archivePath, sha256: nextSha };
   } finally {
     await rm(tmpRoot, { recursive: true, force: true });
   }
-  return { archiveName, archivePath, sha256: await sha256File(archivePath) };
 }
 
 function latestVersion(manifest) {

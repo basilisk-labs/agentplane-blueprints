@@ -1,10 +1,11 @@
 ---
 id: "202605091932-VWXJEB"
 title: "Add coding-twitter usage guide"
-status: "DOING"
+result_summary: "Added hybrid YAML/Markdown USAGE.md for coding-twitter, bumped the package to 0.1.2, and published the updated release index and tarball."
+status: "DONE"
 priority: "med"
 owner: "DOCS"
-revision: 5
+revision: 6
 origin:
   system: "manual"
 depends_on: []
@@ -22,11 +23,16 @@ verification:
   updated_by: "DOCS"
   note: "Coding Twitter usage guide package update verified."
   attempts: 0
-commit: null
+commit:
+  hash: "006f4e0613f4d24d0193feddf3830c17024b6ceb"
+  message: "Add coding-twitter usage guide [202605091932-VWXJEB]"
 comments:
   -
     author: "DOCS"
     body: "Start: adding the approved hybrid YAML/Markdown usage guide for coding-twitter and publishing it as an immutable blueprint package update."
+  -
+    author: "DOCS"
+    body: "Verified: coding-twitter USAGE.md is packaged in version 0.1.2, release index metadata was rebuilt, and catalog/package checks passed."
 events:
   -
     type: "status"
@@ -41,8 +47,15 @@ events:
     author: "DOCS"
     state: "ok"
     note: "Coding Twitter usage guide package update verified."
+  -
+    type: "status"
+    at: "2026-05-09T19:34:28.804Z"
+    author: "DOCS"
+    from: "DOING"
+    to: "DONE"
+    note: "Verified: coding-twitter USAGE.md is packaged in version 0.1.2, release index metadata was rebuilt, and catalog/package checks passed."
 doc_version: 3
-doc_updated_at: "2026-05-09T19:34:14.747Z"
+doc_updated_at: "2026-05-09T19:34:28.806Z"
 doc_updated_by: "DOCS"
 description: "Add a hybrid YAML/Markdown USAGE.md to the coding-twitter blueprint package so agents can explain setup, commands, outputs, and safety gates after installation."
 sections:
