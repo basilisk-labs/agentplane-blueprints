@@ -1,0 +1,202 @@
+{
+  "acr_version": "0.1.0",
+  "record_type": "agent_change_record",
+  "record_id": "acr_202605091602-3JPQB1",
+  "created_at": "2026-05-09T16:33:03.190Z",
+  "producer": {
+    "name": "agentplane",
+    "version": "0.4.2"
+  },
+  "repository": {
+    "vcs": "git",
+    "base_ref": "main",
+    "base_commit": "e35ee63e032948be8378c412ee1cc6ea99f4640d",
+    "work_ref": "main",
+    "work_commit": "e35ee63e032948be8378c412ee1cc6ea99f4640d"
+  },
+  "task": {
+    "task_id": "202605091602-3JPQB1",
+    "title": "Add coding Twitter blueprint",
+    "intent": "Publish a reusable coding-twitter blueprint that analyzes finished coding work, drafts status tweets using marketing/editorial materials, and keeps publishing approval-gated.",
+    "requested_by": {
+      "type": "agentplane_role",
+      "id": "ORCHESTRATOR"
+    }
+  },
+  "agent": {
+    "id": "CODER",
+    "name": "CODER",
+    "agent_type": "coding_agent",
+    "model": {
+      "provider": "unknown",
+      "name": "unknown",
+      "version": "unknown"
+    },
+    "toolchain": [
+      {
+        "name": "agentplane",
+        "version": "0.4.2"
+      }
+    ]
+  },
+  "plan": {
+    "status": "approved",
+    "artifact": {
+      "path": ".agentplane/tasks/202605091602-3JPQB1/README.md",
+      "sha256": "sha256:12e375e12be8df0702e3cbb921f6872f941d1a03c8d5e0972a05b9a799bdf9e5"
+    },
+    "approved_at": "2026-05-09T16:02:30.119Z",
+    "approved_by": {
+      "type": "agentplane_role",
+      "id": "ORCHESTRATOR"
+    }
+  },
+  "permissions": {
+    "network": {
+      "mode": "approval_required"
+    },
+    "secrets": {
+      "access": "none"
+    },
+    "tools": [
+      {
+        "name": "shell",
+        "allowed": true
+      }
+    ]
+  },
+  "policy": {
+    "policy_version": "0.1.0",
+    "decisions": [
+      {
+        "rule_id": "plan.required",
+        "decision": "pass",
+        "reason": "Approved plan exists."
+      },
+      {
+        "rule_id": "verification.required",
+        "decision": "pass",
+        "reason": "Verification is recorded as ok."
+      }
+    ]
+  },
+  "changes": {
+    "summary": "Added publishable coding-twitter external blueprint with draft-first X/Twitter workflow, marketing submodule editorial input, approval-gated publishing semantics, extension namespace commands, and catalog registration.",
+    "diff_stats": {
+      "files_changed": 0,
+      "insertions": 0,
+      "deletions": 0
+    },
+    "files": [],
+    "risk": {
+      "level": "medium",
+      "categories": [],
+      "protected_paths_touched": false
+    }
+  },
+  "verification": {
+    "status": "passed",
+    "checks": []
+  },
+  "approvals": [
+    {
+      "approval_id": "approval_202605091602-3JPQB1_plan",
+      "type": "plan_approval",
+      "decision": "approved",
+      "approved_by": {
+        "type": "agentplane_role",
+        "id": "ORCHESTRATOR"
+      },
+      "approved_at": "2026-05-09T16:02:30.119Z",
+      "scope": "task"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "task",
+      "path": ".agentplane/tasks/202605091602-3JPQB1/README.md",
+      "sha256": "sha256:12e375e12be8df0702e3cbb921f6872f941d1a03c8d5e0972a05b9a799bdf9e5"
+    },
+    {
+      "type": "plan",
+      "path": ".agentplane/tasks/202605091602-3JPQB1/README.md",
+      "sha256": "sha256:12e375e12be8df0702e3cbb921f6872f941d1a03c8d5e0972a05b9a799bdf9e5"
+    },
+    {
+      "type": "verification_log",
+      "path": ".agentplane/tasks/202605091602-3JPQB1/README.md",
+      "sha256": "sha256:12e375e12be8df0702e3cbb921f6872f941d1a03c8d5e0972a05b9a799bdf9e5"
+    },
+    {
+      "type": "other",
+      "path": ".agentplane/tasks/202605091602-3JPQB1/blueprint/resolved-snapshot.json",
+      "sha256": "sha256:56330d8bd685db1f453589fe0d146847735155e5de57a82cb99b66f39d59e736"
+    }
+  ],
+  "result": {
+    "status": "finished",
+    "merge_ready": false,
+    "residual_risks": [
+      "Passed verification has no checks."
+    ],
+    "rollback": {
+      "available": true,
+      "notes": "Revert work_commit e35ee63e032948be8378c412ee1cc6ea99f4640d if downstream validation fails."
+    }
+  },
+  "integrity": {
+    "digest_algorithm": "sha256",
+    "record_digest": "sha256:8233ec40a0223a86abdf60d8999f4135a32d0e6635632d7de94025c3743b17c7",
+    "canonicalization": "rfc8785-jcs",
+    "signatures": []
+  },
+  "extensions": {
+    "agentplane.blueprint": {
+      "blueprint_id": "content.light",
+      "blueprint_version": 1,
+      "workflow_mode": "direct",
+      "route": [
+        "intake",
+        "scope",
+        "context_resolve",
+        "work_unit",
+        "deterministic_check",
+        "artifact_write",
+        "verify_record",
+        "finish"
+      ],
+      "required_evidence": [
+        {
+          "id": "content.sources",
+          "kind": "sources",
+          "produced_by": "context_resolve",
+          "required": true
+        },
+        {
+          "id": "content.check",
+          "kind": "check_result",
+          "produced_by": "deterministic_check",
+          "required": true
+        },
+        {
+          "id": "content.final",
+          "kind": "final_output",
+          "produced_by": "work_unit",
+          "required": true
+        }
+      ],
+      "accepted_recipe_extensions": [],
+      "rejected_recipe_extensions": [],
+      "stop_reasons": [],
+      "snapshot": {
+        "state": "current",
+        "path": ".agentplane/tasks/202605091602-3JPQB1/blueprint/resolved-snapshot.json",
+        "digest": "81a9183579e34218483fe8a2580ce518e530211cabd1fb0e5baccfaf388bea70",
+        "current_digest": "81a9183579e34218483fe8a2580ce518e530211cabd1fb0e5baccfaf388bea70",
+        "route_changed": false,
+        "artifact_sha256": "sha256:56330d8bd685db1f453589fe0d146847735155e5de57a82cb99b66f39d59e736",
+        "safe_command": "agentplane blueprint snapshot 202605091602-3JPQB1"
+      }
+    }
+  }
+}
