@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "blueprints": [
+    "coding-twitter",
+    "performance-benchmark",
+    "quality-regression",
+    "runner-execution"
+  ],
+  "packs": [
+    "enterprise-baseline"
+  ]
+}

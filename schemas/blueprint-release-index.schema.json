@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplane.dev/schemas/blueprint-release-index.schema.json",
+  "title": "AgentPlane Blueprint Release Index",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "catalog_id", "blueprints", "packs"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "catalog_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "blueprints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "summary", "versions"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 1 },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "activation": { "type": "object" },
+          "versions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": ["version", "url", "sha256"],
+              "properties": {
+                "version": { "type": "string", "minLength": 1 },
+                "url": { "type": "string", "minLength": 1 },
+                "sha256": { "type": "string", "minLength": 1 },
+                "min_agentplane_version": { "type": "string" },
+                "tags": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "packs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "summary", "blueprints"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 1 },
+          "blueprints": { "type": "array" }
+        }
+      }
+    }
+  }
+}

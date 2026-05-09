@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentplane.dev/schemas/blueprint-release-index-signature.schema.json",
+  "title": "AgentPlane Blueprint Release Index Signature",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "key_id", "signature"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "key_id": { "type": "string", "minLength": 1 },
+    "algorithm": { "type": "string", "enum": ["ed25519"] },
+    "signature": { "type": "string", "minLength": 1 }
+  }
+}

@@ -20,13 +20,17 @@ routes can live without bloating the core product.
 ## Repository Layout
 
 ```text
-catalog/index.json          public catalog metadata
-blueprints/<id>/blueprint.json       atomic installable blueprint manifest
-blueprints/<id>/blueprints/*.json    AgentPlane project-local blueprint definition
-packs/<id>/pack.json                 lightweight blueprint collection wrapper
-schemas/                    JSON schemas for catalog consumers
-scripts/                    dependency-free validation and build scripts
-dist/index.json             generated catalog index
+catalog.json                       publication allowlist
+catalog/index.json                 source catalog metadata for current CLI compatibility
+index.json                         generated signed-index payload for public installation
+index.json.sig                     optional Ed25519 signature envelope
+blueprints/<id>/blueprint.json      atomic installable blueprint manifest
+blueprints/<id>/blueprints/*.json   AgentPlane project-local blueprint definition
+packs/<id>/pack.json                lightweight blueprint collection wrapper
+schemas/                           JSON schemas for catalog consumers
+scripts/                           dependency-free validation, packaging, and signing scripts
+dist/<id>-<version>.tar.gz          versioned blueprint packages
+dist/index.json                    generated copy of the public release index
 docs/                       design, development plan, and concept assessment
 ```
 
@@ -40,6 +44,18 @@ npm run check
 
 The scripts intentionally avoid third-party dependencies so the catalog can be validated in a fresh
 checkout and by release automation before publication.
+
+## Release Model
+
+Blueprint distribution follows the same shape as AgentPlane recipes:
+
+1. `catalog.json` is the explicit publication allowlist.
+2. `npm run build` creates `dist/<id>-<version>.tar.gz` packages.
+3. `index.json` and `dist/index.json` list package URLs and SHA-256 checksums.
+4. `npm run sign:index` writes `index.json.sig` when the signing key is provided in the environment.
+5. Consumers should install selected packages, verify checksums, vendor them into the project, and activate blueprint ids explicitly.
+
+The legacy source catalog at `catalog/index.json` remains available for current CLI compatibility while the public install contract moves to versioned packages.
 
 ## Advanced Install Model
 
